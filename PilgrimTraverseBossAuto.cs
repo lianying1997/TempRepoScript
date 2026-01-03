@@ -62,6 +62,7 @@ public class PilgrimTraverseBossAuto
     {
         RefreshParams(sa);
         sa.Method.RemoveDraw(".*");
+        sa.Method.ClearFrameworkUpdateAction(this);
         if (sa.Data.PartyList.Count > 1)
         {
             sa.DebugMsg($"检测到非单人模式，BossAuto辅助关闭");
@@ -85,17 +86,19 @@ public class PilgrimTraverseBossAuto
     {
     }
     
-    [ScriptMethod(name: "空降安全区", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+    [ScriptMethod(name: "十二分割", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
         userControl: true)]
-    public void 空降安全区(Event ev, ScriptAccessory sa)
+    public void 十二分割(Event ev, ScriptAccessory sa)
     {
-        var pos = new Vector3(-293.65f, 0, -306.36f);
         var center = new Vector3(-300, 0, -300);
-        for (var i = 0; i < 3; i++)
+        var sep = 12;
+        for (int i = 0; i < sep; i++)
         {
-            sa.DrawCircle(pos.RotateAndExtend(center, 45f.DegToRad() + i * 90f.DegToRad()), 0, 10000, $"a", 11);
+            var rad = (360f / sep * (i + 0.5f)).DegToRad();
+            var endPoint = new Vector3(-300, 0, -280).RotateAndExtend(center, rad);
+            var dp = sa.DrawLine(center, endPoint, 0, 10000, $"a", 0, 5, 6, draw: false, byY: true);
+            sa.Method.SendDraw(DrawModeEnum.Imgui, DrawTypeEnum.Line, dp);
         }
-        // 安全偏置7.5即可
     }
     
     #region F10 花人
@@ -291,11 +294,291 @@ public class PilgrimTraverseBossAuto
     }
     
     #endregion F20 得到宽恕的欧米茄
+
+    #region F30 得到宽恕的不规则场地
+
+    [ScriptMethod(name: "———————— 《F30 得到宽恕的不规则场地》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+        userControl: true)]
+    public void F30_分割线(Event ev, ScriptAccessory sa)
+    {
+    }
+    
+    [ScriptMethod(name: "落光施法起跑准备", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44917"],
+        userControl: true)]
+    public void 落光施法起跑准备(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        var center = new Vector3(-300, 0, -300);
+        SwitchAiMode(sa, false);
+
+        // 根据所在区域前往起跑点
+        var region = sa.Data.MyObject.Position.GetRadian(center).RadianToRegion(12, 0, true);
+        _bsp.F30A_playerTargetRegion = region;
+        var basePos = new Vector3(-300, 0, -283);
+        // 十二等分，360 / 12 = 30
+        var startPos = basePos.RotateAndExtend(center, region * 30f.DegToRad());
+        sa.DrawGuidance(startPos, 0, 4000, $"落光起跑点");
+        MoveTo(sa, startPos);
+        sa.DebugMsg($"落光施法，当前区域为 {region}，前往起跑点，关闭BMR");
+    }
+    
+    [ScriptMethod(name: "落光开始跑地火", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44918"],
+        userControl: true)]
+    public void 落光开始跑地火(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        var center = new Vector3(-300, 0, -300);
+        sa.Method.RemoveDraw($"落光起跑点");
+        _bsp.F30A_frameWorkAction = sa.Method.RegistFrameworkUpdateAction(Action);
+
+        void Action()
+        {
+            var region = sa.Data.MyObject.Position.GetRadian(center).RadianToRegion(12, 0, true);
+            if (region != _bsp.F30A_playerTargetRegion) return;
+            
+            // 到达区域，前往下一个
+            sa.Method.RemoveDraw($"落光目标点{region}");
+            var nextRegion = (region + 1) % 12;
+            var basePos = new Vector3(-300, 0, -283);
+            var targetPos = basePos.RotateAndExtend(center, nextRegion * 30f.DegToRad());
+            _bsp.F30A_playerTargetRegion = nextRegion;
+            sa.DrawGuidance(targetPos, 0, 4000, $"落光目标点{nextRegion}");
+            MoveTo(sa, targetPos);
+            sa.DebugMsg($"前往下一个区域 {region}");
+        }
+    }
+
+    [ScriptMethod(name: "跑地火结束", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:39487"],
+        userControl: true)]
+    public void 跑地火结束(Event ev, ScriptAccessory sa)
+    {
+        // 光耀颂词读条完毕
+        if (!_enable) return;
+        if (_bsp.F30A_frameWorkAction == "") return;
+        _bsp.Reset(sa, 30);
+        sa.Method.UnregistFrameworkUpdateAction(_bsp.F30A_frameWorkAction);
+        MoveStop(sa);
+        SwitchAiMode(sa, true);
+        sa.DebugMsg($"跑地火结束，开启BMR");
+    }
+
+    #endregion F30 得到宽恕的哈迪斯
+    
+    #region F50 奥格巴拉巴拉
+    
+    [ScriptMethod(name: "———————— 《F50 奥格巴拉巴拉》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+        userControl: true)]
+    public void F50_分割线(Event ev, ScriptAccessory sa)
+    {
+    }
+    
+    [ScriptMethod(name: "进沙坑读条关闭BMR起跑", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:43533"],
+        userControl: true)]
+    public void 进沙坑读条起跑准备(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchAiMode(sa, false);
+        sa.DebugMsg($"进沙坑读条，关闭BMR");
+        var myPos = sa.Data.MyObject.Position;
+
+        var minDistance = 40f;
+        var minSpot = _bsp.F50A_safeSpots[0];
+        // 找起跑点
+        for (int i = 0; i < 6; i++)
+        {
+            var spot = _bsp.F50A_safeSpots[i];
+            var distance = Vector3.Distance(myPos with { Y = 0 }, spot with { Y = 0 });
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                minSpot = spot;
+                _bsp.F50A_targetSpotIdx = i;
+            }
+            // 3代表在当前小石头上
+            if (distance > 3f) continue;
+            sa.DrawGuidance(spot, 0, 4000, $"沙坑起跑点");
+            MoveTo(sa, spot);
+            return;
+        }
+        // 若未在给定的小石头上，去离自己最近的那个
+        sa.DrawGuidance(minSpot, 0, 4000, $"沙坑起跑点");
+        MoveTo(sa, minSpot);
+    }
+    
+    [ScriptMethod(name: "破坑而出开始", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:43534"],
+        userControl: true)]
+    public void 破坑而出开始(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        // 破坑而出百分百点自己，这里默认顺时针跑
+        _bsp.F50A_frameWorkAction = sa.Method.RegistFrameworkUpdateAction(Action);
+
+        void Action()
+        {
+            var myPos = sa.Data.MyObject.Position;
+            var targetSpot = _bsp.F50A_safeSpots[_bsp.F50A_targetSpotIdx];
+            var distance = Vector3.Distance(myPos with { Y = 0 }, targetSpot with { Y = 0 });
+            
+            // 还没到则返回
+            if (distance > 1.5f) return;
+            
+            // 跑到下一个点
+            sa.Method.RemoveDraw($"沙坑目标{_bsp.F50A_targetSpotIdx}");
+            var nextSpotIdx = (_bsp.F50A_targetSpotIdx + 1) % 6;
+            // var nextSpotIdx = (_bsp.F50A_targetSpotIdx + 6 - 1) % 6;
+            var nextTargetSpot = _bsp.F50A_safeSpots[nextSpotIdx];
+            _bsp.F50A_targetSpotIdx = nextSpotIdx;
+            sa.DrawGuidance(nextTargetSpot, 0, 4000, $"沙坑目标{nextSpotIdx}");
+            MoveTo(sa, nextTargetSpot);
+        }
+    }
+    
+    [ScriptMethod(name: "破坑而出结束", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:43536"],
+        userControl: true)]
+    public void 破坑而出结束(Event ev, ScriptAccessory sa)
+    {
+        // 最后一个出土
+        if (!_enable) return;
+        if (_bsp.F50A_frameWorkAction == "") return;
+        _bsp.Reset(sa, 50);
+        sa.Method.UnregistFrameworkUpdateAction(_bsp.F50A_frameWorkAction);
+        MoveStop(sa);
+        SwitchAiMode(sa, true);
+        sa.DebugMsg($"破坑而出结束，开启BMR");
+    }
+    
+    #endregion 得到宽恕的沙坑
+
+    #region F60 仙人掌
+
+    [ScriptMethod(name: "———————— 《F60 仙人掌》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+        userControl: true)]
+    public void F60_分割线(Event ev, ScriptAccessory sa)
+    {
+    }
+    
+    [ScriptMethod(name: "分株读条计数", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44857"],
+        userControl: true)]
+    public void 分株读条计数(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        var center = new Vector3(-600, 0, -300);
+        MoveTo(sa, center);
+        if (_bsp.F60A_castCountOdd)
+            // 若前一次是奇数次，则本次是偶数次，重置值，重置自带置False
+            _bsp.Reset(sa, 60);
+        else
+        {
+            _bsp.F60A_castCountOdd = !_bsp.F60A_castCountOdd;
+            SwitchAiMode(sa, !_bsp.F60A_castCountOdd);
+        }
+        sa.DebugMsg($"四列式分株：{_bsp.F60A_castCountOdd}");
+    }
+    
+    [ScriptMethod(name: "仙人花路径点", eventType: EventTypeEnum.SetObjPos, eventCondition: ["SourceDataId:18912"],
+        userControl: true)]
+    public void 仙人花路径点(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        if (!_bsp.F60A_castCountOdd) return;
+        if (_bsp.F60A_sourcePosIdxVal > 10_00_00) return;
+        // 以左上为(1,1)，先行后列
+        
+        var pos = ev.SourcePosition;
+        var colIdx = (int)((pos.X + 626) / 10);
+        var rowIdx = (int)((pos.Z + 326) / 10);
+        var digitIdx = _bsp.F60A_sourcePosIdxVal switch
+        {
+            < 10 => 0,
+            < 10_00 => 2,
+            _ => 4
+        };
+        _bsp.F60A_sourcePosIdxVal += (int)(colIdx * Math.Pow(10, digitIdx) + rowIdx * Math.Pow(10, digitIdx + 1));
+        sa.DebugMsg($"F60A_sourcePosIdxVal : {_bsp.F60A_sourcePosIdxVal}");
+        // 计算安全区
+        if (digitIdx != 4) return;
+        // 检测1与3是否在同行，若同行则处于情况一，不同行情况二
+        var sourcePosIdxVal = _bsp.F60A_sourcePosIdxVal;
+        var oneThreeSameRow = sourcePosIdxVal.GetDecimalDigit(1) == sourcePosIdxVal.GetDecimalDigit(5);
+        
+        // 获得起点
+        var startCol = sourcePosIdxVal.GetDecimalDigit(4);
+        var startRow = sourcePosIdxVal.GetDecimalDigit(5);
+        if (oneThreeSameRow) 
+            startRow = startRow == 2 ? 1 : 4;
+        _bsp.F60A_safePosRouteIdxVal += startCol + startRow * 10;
+        
+        // 获得终点
+        var destCol = sourcePosIdxVal.GetDecimalDigit(0);
+        var destRow = sourcePosIdxVal.GetDecimalDigit(1);
+        if (oneThreeSameRow) 
+            destRow = destRow == 2 ? 1 : 4;
+        _bsp.F60A_safePosRouteIdxVal += destCol * 100 + destRow * 1000;
+        
+        sa.DebugMsg($"仙人掌记录：{_bsp.F60A_sourcePosIdxVal}，安全路径记录：{_bsp.F60A_safePosRouteIdxVal}");
+        // 直接移动到起跑点
+
+        var startPosX = startCol * 10 - 625f + (destCol < startCol ? -4.5f : 4.5f);
+        var startPosZ = startRow * 10 - 325f + (destRow < startRow ? -4.5f : 4.5f);
+        var startPos = new Vector3(startPosX, 0, startPosZ);
+        sa.DrawGuidance(startPos, 0, 4000, $"起跑点");
+        MoveTo(sa, startPos);
+    }
+
+    [ScriptMethod(name: "仙人花开跑", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:44859", "TargetIndex:1"],
+        userControl: true, suppress: 20000)]
+    public void 仙人花开跑(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        var startCol = _bsp.F60A_safePosRouteIdxVal.GetDecimalDigit(0);
+        var startRow = _bsp.F60A_safePosRouteIdxVal.GetDecimalDigit(1);
+        var destCol = _bsp.F60A_safePosRouteIdxVal.GetDecimalDigit(2);
+        var destRow = _bsp.F60A_safePosRouteIdxVal.GetDecimalDigit(3);
+        
+        var destPosX = destCol * 10 - 625f + (destCol < startCol ? 4.5f : -4.5f);
+        var destPosZ = destRow * 10 - 325f + (destRow < startRow ? 4.5f : -4.5f);
+        var destPos = new Vector3(destPosX, 0, destPosZ);
+        _bsp.F60A_frameWorkAction = sa.Method.RegistFrameworkUpdateAction(Action);
+
+        void Action()
+        {
+            var myPos = sa.Data.MyObject.Position;
+            // 先横走，再竖走
+
+            if (_bsp.F60A_routeState == 0 && Math.Abs(myPos.X - destPos.X) > 0.5f)
+            {
+                sa.DrawGuidance(new Vector3(destPos.X, 0, myPos.Z), 0, 4000, $"横走");
+                MoveTo(sa, new Vector3(destPos.X, 0, myPos.Z));
+                _bsp.F60A_routeState = 1;
+            }
+            else if (_bsp.F60A_routeState == 1 && Math.Abs(myPos.X - destPos.X) <= 0.5f && Math.Abs(myPos.Z - destPos.Z) > 0.5f)
+            {
+                sa.DrawGuidance(destPos, 0, 4000, $"竖走");
+                MoveTo(sa, destPos);
+                _bsp.F60A_routeState = 2;
+            }
+        }
+    }
+
+    [ScriptMethod(name: "飞针射击停止仙人花机制移动", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44866"], userControl: true)]
+    public void 飞针射击停止仙人花机制移动(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        if (_bsp.F60A_frameWorkAction == "") return;
+        sa.Method.UnregistFrameworkUpdateAction(_bsp.F60A_frameWorkAction);
+        MoveStop(sa);
+        SwitchAiMode(sa, true);
+        sa.DebugMsg($"飞针射击开始，仙人花结束，开启BMR");
+    }
+
+    #endregion F60 仙人掌
     
     #region 脚本专用函数
+    
     private void SwitchAiMode(ScriptAccessory sa, bool enable) => sa.Method.SendChat($"/bmrai {(enable ? "on" : "off")}");
     private void SwitchAntiKnockback(ScriptAccessory sa, bool enable) => sa.Method.SendChat($"/i-ching-commander anti_knock {(enable ? "0 0" : "dispose")}");
     private void MoveTo(ScriptAccessory sa, Vector3 point) => sa.Method.SendChat($"/vnav moveto {point.X} {point.Y} {point.Z}");
+    private void MoveStop(ScriptAccessory sa) => sa.Method.SendChat($"/vnav stop");
     #endregion 脚本专用函数
     
     #region 参数容器类
@@ -308,11 +591,34 @@ public class PilgrimTraverseBossAuto
         // 压花
         public int F10B_castRegionVal = 0;
         public int F10B_castCount = 0;
-        public int F10B_ReadyToEffectCount = 0;
         
         // 空降
         public int F20A_castRegionVal = 0;
         public int F20A_castCount = 0;
+        
+        // 落光
+        public string F30A_frameWorkAction = "";
+        public int F30A_playerTargetRegion = -1;
+        
+        // 进沙坑
+        public Vector3[] F50A_safeSpots =
+        [
+            new Vector3(-293.90f, 0.23f, -310.39f),
+            new Vector3(-288.05f, 0.26f, -300.83f),
+            new Vector3(-293.08f, 0.25f, -293.05f),
+            new Vector3(-302.96f, 0.16f, -290.20f),
+            new Vector3(-307.92f, 0.19f, -298.70f),
+            new Vector3(-308.81f, 0.16f, -307.84f),
+        ];
+        public int F50A_targetSpotIdx = -1;
+        public string F50A_frameWorkAction = "";
+        
+        // 分株仙人掌
+        public bool F60A_castCountOdd = false;
+        public int F60A_sourcePosIdxVal = 0;
+        public int F60A_safePosRouteIdxVal = 0;
+        public int F60A_routeState = 0;
+        public string F60A_frameWorkAction = "";
         
         public void Reset(ScriptAccessory sa, int floor)
         {
@@ -323,11 +629,25 @@ public class PilgrimTraverseBossAuto
                     F10A_castCount = 0;
                     F10B_castRegionVal = 0;
                     F10B_castCount = 0;
-                    F10B_ReadyToEffectCount = 0;
                     break;
                 case 20:
                     F20A_castRegionVal = 0;
                     F20A_castCount = 0;
+                    break;
+                case 30:
+                    F30A_frameWorkAction = "";
+                    F30A_playerTargetRegion = -1;
+                    break;
+                case 50:
+                    F50A_targetSpotIdx = -1;
+                    F50A_frameWorkAction = "";
+                    break;
+                case 60:
+                    F60A_castCountOdd = false;
+                    F60A_sourcePosIdxVal = 0;
+                    F60A_safePosRouteIdxVal = 0;
+                    F60A_routeState = 0;
+                    F60A_frameWorkAction = "";
                     break;
                 default:
                     break;
