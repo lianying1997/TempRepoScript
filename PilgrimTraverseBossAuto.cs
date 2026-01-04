@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Numerics;
-using Newtonsoft.Json;
 using System.Linq;
 using System.ComponentModel;
 using Dalamud.Utility.Numerics;
@@ -24,7 +23,7 @@ using Lumina.Excel.Sheets;
 namespace KodakkuScripts.UsamisPrivateScript._07_Dawntrail.PilgrimTraverse;
 
 
-[ScriptType(name: Name, territorys: [1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290], guid: "fb8c4010-82cf-4d35-9ce8-c80b58215a9d",
+[ScriptType(name: Name, territorys: [1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290, 1333], guid: "fb8c4010-82cf-4d35-9ce8-c80b58215a9d",
     version: Version, author: "Usami", note: NoteStr, updateInfo: UpdateInfo)]
 
 // ^(?!.*((武僧|机工士|龙骑士|武士|忍者|蝰蛇剑士|钐镰客|舞者|吟游诗人|占星术士|贤者|学者|(朝日|夕月)小仙女|炽天使|白魔法师|战士|骑士|暗黑骑士|绝枪战士|绘灵法师|黑魔法师|青魔法师|召唤师|宝石兽|亚灵神巴哈姆特|亚灵神不死鸟|迦楼罗之灵|泰坦之灵|伊弗利特之灵|后式自走人偶)\] (Used|Cast))).*35501.*$
@@ -43,18 +42,14 @@ public class PilgrimTraverseBossAuto
     const string UpdateInfo =
         $"""
          {Version}
-         10、20 OK
+         All Boss OK
          """;
 
     private const string Name = "MazeClear妖宫Boss辅助";
-    private const string Version = "0.0.0.1";
+    private const string Version = "0.0.0.2";
     private const string DebugVersion = "a";
-    private const bool Debugging = true;
-    
+    private const bool Debugging = false;
     private bool _enable = true;
-    
-    [UserSetting("自动按需开启I-ching防击退")]
-    public static bool EnableIChingAntiKnockBack { get; set; } = true;
 
     private static BossStateParams _bsp = new();
     
@@ -86,19 +81,19 @@ public class PilgrimTraverseBossAuto
     {
     }
     
-    [ScriptMethod(name: "十二分割", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+    
+    [ScriptMethod(name: "bsp检测", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
         userControl: true)]
-    public void 十二分割(Event ev, ScriptAccessory sa)
+    public void bsp检测(Event ev, ScriptAccessory sa)
     {
-        var center = new Vector3(-300, 0, -300);
-        var sep = 12;
-        for (int i = 0; i < sep; i++)
-        {
-            var rad = (360f / sep * (i + 0.5f)).DegToRad();
-            var endPoint = new Vector3(-300, 0, -280).RotateAndExtend(center, rad);
-            var dp = sa.DrawLine(center, endPoint, 0, 10000, $"a", 0, 5, 6, draw: false, byY: true);
-            sa.Method.SendDraw(DrawModeEnum.Imgui, DrawTypeEnum.Line, dp);
-        }
+        var hpPercentMan = (float)((IBattleChara)_bsp.F99_DarkManObj).CurrentHp / _bsp.F99_DarkManHpMax;
+        var hpPercentWoman = (float)((IBattleChara)_bsp.F99_LightWomanObj).CurrentHp / _bsp.F99_LightWomanHpMax;
+            
+        // 倾向于每5%进行一次更换
+        var p = hpPercentMan - hpPercentWoman;
+        sa.DebugMsg($"血量差：{p}");
+        sa.DebugMsg($"我的当前状态：{_bsp.F99_buffState}，下一个状态：{_bsp.F99_nextBuffState}");
+        sa.DebugMsg($"切换buff空闲：{_bsp.F99_changeBuffIdle}，能否切换buff：{_bsp.F99_buffStateExchangeEnable}");
     }
     
     #region F10 花人
@@ -387,7 +382,7 @@ public class PilgrimTraverseBossAuto
         for (int i = 0; i < 6; i++)
         {
             var spot = _bsp.F50A_safeSpots[i];
-            var distance = Vector3.Distance(myPos with { Y = 0 }, spot with { Y = 0 });
+            var distance = Vector3.Distance(myPos.WithY(0), spot.WithY(0));
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -417,7 +412,7 @@ public class PilgrimTraverseBossAuto
         {
             var myPos = sa.Data.MyObject.Position;
             var targetSpot = _bsp.F50A_safeSpots[_bsp.F50A_targetSpotIdx];
-            var distance = Vector3.Distance(myPos with { Y = 0 }, targetSpot with { Y = 0 });
+            var distance = Vector3.Distance(myPos.WithY(0), targetSpot.WithY(0));
             
             // 还没到则返回
             if (distance > 1.5f) return;
@@ -572,6 +567,227 @@ public class PilgrimTraverseBossAuto
     }
 
     #endregion F60 仙人掌
+
+    #region F99 卓异的悲寂
+
+    [ScriptMethod(name: "———————— 《F99 卓异的悲寂》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+        userControl: true)]
+    public void F99_分割线(Event ev, ScriptAccessory sa)
+    {
+    }
+    
+    [ScriptMethod(name: "初始化设置Buff与血量差", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:44094"],
+        userControl: Debugging)]
+    public void 初始化设置f99(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        // 18666 暗男人
+        // 18667 光女人
+        if (_bsp.F99_DarkManObj != null && _bsp.F99_LightWomanObj != null) return;
+        _bsp.F99_DarkManObj = sa.GetByDataId(18666).FirstOrDefault() ?? throw new InvalidOperationException();
+        _bsp.F99_LightWomanObj = sa.GetByDataId(18667).FirstOrDefault() ?? throw new InvalidOperationException();
+        sa.DebugMsg($"获得男女人ID：0x{_bsp.F99_DarkManObj.GameObjectId:x8}, 0x{_bsp.F99_LightWomanObj.GameObjectId:x8}");
+
+        _bsp.F99_DarkManHpMax = ((IBattleChara)_bsp.F99_DarkManObj).MaxHp;
+        _bsp.F99_LightWomanHpMax = ((IBattleChara)_bsp.F99_LightWomanObj).MaxHp;
+        sa.DebugMsg($"获得男女人HP：{_bsp.F99_DarkManHpMax}, {_bsp.F99_LightWomanHpMax}");
+        
+        _bsp.F99_setTargetableFrameWorkAction = sa.Method.RegistFrameworkUpdateAction(ActionTarget);
+        _bsp.F99_setHpDiffFrameWorkAction = sa.Method.RegistFrameworkUpdateAction(ActionHpDiff);
+        _bsp.F99_changeBuffFrameWorkAction = sa.Method.RegistFrameworkUpdateAction(ActionChangeBuff);
+
+        void ActionTarget()
+        {
+            try
+            {
+                // 4559 暗buff 1，4560 光Buff 2
+                var myStatusState = (sa.Data.MyObject.HasStatus(4559) ? 1 : 0) + (sa.Data.MyObject.HasStatus(4560) ? 2 : 0);
+                if (myStatusState == 0) return;
+                if (myStatusState == _bsp.F99_buffState) return;
+
+                sa.SetTargetable(_bsp.F99_DarkManObj, myStatusState != 1);
+                sa.SetTargetable(_bsp.F99_LightWomanObj, myStatusState != 2);
+                _bsp.F99_buffState = myStatusState;
+            }
+            catch (Exception e)
+            {
+                sa.DebugMsg($"{e}");
+            }
+
+        }
+
+        void ActionHpDiff()
+        {
+            try
+            {
+                // 濒死检测
+                const uint DEAD_BUFF_ID = 4561;
+                if (((IBattleChara)_bsp.F99_DarkManObj).HasStatus(DEAD_BUFF_ID))
+                {
+                    _bsp.F99_nextBuffState = 1;
+                    return;
+                }
+                if (((IBattleChara)_bsp.F99_LightWomanObj).HasStatus(DEAD_BUFF_ID))
+                {
+                    _bsp.F99_nextBuffState = 2;
+                    return;
+                }
+                
+                var hpPercentMan = (float)((IBattleChara)_bsp.F99_DarkManObj).CurrentHp / _bsp.F99_DarkManHpMax;
+                var hpPercentWoman = (float)((IBattleChara)_bsp.F99_LightWomanObj).CurrentHp / _bsp.F99_LightWomanHpMax;
+
+                // 倾向于每5%进行一次更换
+                if (hpPercentMan - hpPercentWoman > 0.05f)
+                    _bsp.F99_nextBuffState = 2;
+                else if (hpPercentMan - hpPercentWoman < -0.05f)
+                    _bsp.F99_nextBuffState = 1;
+            }
+            catch (Exception e)
+            {
+                sa.DebugMsg($"{e}");
+            }
+        }
+
+        void ActionChangeBuff()
+        {
+            try
+            {
+                if (!_bsp.F99_buffStateExchangeEnable) return;
+                if (_bsp.F99_nextBuffState == _bsp.F99_buffState)
+                {
+                    _bsp.F99_changeBuffIdle = true;
+                    return;
+                }
+                if (!_bsp.F99_changeBuffIdle) return;
+                var myPos = sa.Data.MyObject.Position;
+                _bsp.F99_changeBuffIdle = false;
+                var minDistance = 50f;
+                Vector3 minDistanceSwamp = new Vector3(0, 0, 0);
+                foreach (var swamp in _bsp.F99_nextBuffState == 1 ? _bsp.F99_darkSwamps : _bsp.F99_lightSwamps)
+                {
+                    var distance = Vector3.Distance(myPos, swamp);
+                    if (!(distance < minDistance)) continue;
+                    minDistance = distance;
+                    minDistanceSwamp = swamp;
+                }
+                sa.DrawGuidance(minDistanceSwamp, 0, 4000, $"切换buff目标沼泽");
+                MoveTo(sa, minDistanceSwamp);
+            }
+            catch (Exception e)
+            {
+                sa.DebugMsg($"{e}");
+            }
+        }
+    }
+    
+    [ScriptMethod(name: "棘刺尾就位", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:44085"],
+        userControl: true)]
+    public void 棘刺尾就位(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchAiMode(sa, false);
+        SwitchChangeBuffAvailability(sa, false);
+        var distance = sa.Data.MyObject.Position.X - -600;
+        var pos = sa.Data.MyObject.Position.WithX(distance > 0 ? -593 : -607);
+        sa.DrawGuidance(pos, 0, 4000, $"就近走");
+        MoveTo(sa, pos);
+    }
+    
+    [ScriptMethod(name: "棘刺尾结束（允许BMR）", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:45118"],
+        userControl: true)]
+    public void 棘刺尾结束(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchAiMode(sa, true);
+    }
+    
+    [ScriptMethod(name: "棘刺尾彻底结束（允许切换buff）", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:45118"],
+        userControl: true)]
+    public void 棘刺尾彻底结束(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, true);
+    }
+    
+    [ScriptMethod(name: "捕捉地火施法", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:regex:^(4407[45])$"],
+        userControl: Debugging)]
+    public void 捕捉地火施法(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        _bsp.Reset(sa, 99);
+        
+        const uint VERTICAL_FIRST = 44075;
+        var center = new Vector3(-600, 0, -300);
+        var pos = new Vector3(-606f, 0, -314f);
+        _bsp.F99A_exaflareSafePos = ev.ActionId == VERTICAL_FIRST ? pos.PointCenterSymmetry(center) : pos;
+    }
+    
+    [ScriptMethod(name: "捕捉地火源", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:44078"],
+        userControl: Debugging)]
+    public void 捕捉地火源(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        if (_bsp.F99A_exaflareDone) return;
+        var center = new Vector3(-600, 0, -300);
+        lock (_bsp)
+        {
+            var distance = Math.Abs(ev.EffectPosition.Z - -300);
+            if (distance >= 1.5f) return;
+            
+            if (ev.EffectPosition.X > center.X)
+                _bsp.F99A_exaflareSafePos = _bsp.F99A_exaflareSafePos.FoldPointHorizon(center.X);
+            sa.DebugMsg($"获得地火安全区：{(_bsp.F99A_exaflareSafePos.X < center.X ? "左" : "右")}{(_bsp.F99A_exaflareSafePos.Z < center.Z ? "上" : "下")}");
+            _bsp.F99A_exaflareDone = true;
+        }
+    }
+    
+    [ScriptMethod(name: "移动至地火安全区", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44079"],
+        userControl: true, suppress: 10000)]
+    public void 地火安全区(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, false);
+        sa.DrawGuidance(_bsp.F99A_exaflareSafePos, 0, 4000, $"地火安全区");
+        MoveTo(sa, _bsp.F99A_exaflareSafePos);
+        sa.DebugMsg($"去地火安全区");
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(13000);
+            SwitchChangeBuffAvailability(sa, true);
+        });
+    }
+    
+    [ScriptMethod(name: "净罪之环禁止切换Buff", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:44082", "TargetIndex:1"],
+        userControl: true)]
+    public void 净罪之环禁止切换(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, false);
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(8000);
+            SwitchChangeBuffAvailability(sa, true);
+        });
+    }
+    
+    [ScriptMethod(name: "以太吸取禁用血量检测更换Buff", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:regex:^(4409[02])$"],
+        userControl: true)]
+    public void 以太吸取禁用血量检测(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, false);
+    }
+    
+    [ScriptMethod(name: "以太吸取开启血量检测更换Buff", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:regex:^(44089|44092)$"],
+        userControl: true)]
+    public void 以太吸取开启血量检测(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        // 长读条读完后开启
+        SwitchChangeBuffAvailability(sa, true);
+    }
+
+    #endregion F99 卓异的悲寂
     
     #region 脚本专用函数
     
@@ -579,6 +795,26 @@ public class PilgrimTraverseBossAuto
     private void SwitchAntiKnockback(ScriptAccessory sa, bool enable) => sa.Method.SendChat($"/i-ching-commander anti_knock {(enable ? "0 0" : "dispose")}");
     private void MoveTo(ScriptAccessory sa, Vector3 point) => sa.Method.SendChat($"/vnav moveto {point.X} {point.Y} {point.Z}");
     private void MoveStop(ScriptAccessory sa) => sa.Method.SendChat($"/vnav stop");
+    private void SwitchChangeBuffAvailability(ScriptAccessory sa, bool enable)
+    {
+        if (!enable)
+        {
+            _bsp.F99_buffStateExchangeEnable = false;
+            if (!_bsp.F99_changeBuffIdle)
+            {
+                sa.DebugMsg($"停止自动切换Buff寻路");
+                MoveStop(sa);
+            }
+            _bsp.F99_changeBuffIdle = true;
+            sa.DebugMsg($"禁止自动切换Buff");
+        }
+        else
+        {
+            _bsp.F99_buffStateExchangeEnable = true;
+            sa.DebugMsg($"允许自动切换Buff");
+        }
+    }
+    
     #endregion 脚本专用函数
     
     #region 参数容器类
@@ -620,6 +856,37 @@ public class PilgrimTraverseBossAuto
         public int F60A_routeState = 0;
         public string F60A_frameWorkAction = "";
         
+        // 卓异的悲寂
+        public IGameObject? F99_DarkManObj = null;
+        public IGameObject? F99_LightWomanObj = null;
+        public uint F99_DarkManHpMax = 0;
+        public uint F99_LightWomanHpMax = 0;
+        public string F99_setTargetableFrameWorkAction = "";
+        public int F99_buffState = 0;
+        
+        public string F99_setHpDiffFrameWorkAction = "";
+        public bool F99_buffStateExchangeEnable = true;
+        public int F99_nextBuffState = 2;
+        public string F99_changeBuffFrameWorkAction = "";
+        public bool F99_changeBuffIdle = true;
+        
+        public readonly Vector3[] F99_lightSwamps =
+        [
+            new(-587.75f, 0, -309.53f), new(-610.48f, 0, -303.28f), 
+            new(-596.48f, 0, -303.28f), new(-580.57f, 0, -292.26f),
+            new(-604.45f, 0, -287.33f)
+        ];
+    
+        public readonly Vector3[] F99_darkSwamps =
+        [
+            new(-595.81f, 0, -312.70f), new(-619f, 0, -307.57f), 
+            new(-603.7f, 0, -296.5f), new(-589.53f, 0, -296.42f),
+            new(-611.94f, 0, -290.33f)
+        ];
+        
+        public Vector3 F99A_exaflareSafePos = new Vector3(-606f, 0, -314f);
+        public bool F99A_exaflareDone = false;
+        
         public void Reset(ScriptAccessory sa, int floor)
         {
             switch (floor)
@@ -649,19 +916,14 @@ public class PilgrimTraverseBossAuto
                     F60A_routeState = 0;
                     F60A_frameWorkAction = "";
                     break;
+                case 99:
+                    F99A_exaflareDone = false;
+                    break;
                 default:
                     break;
             }
             
             sa.DebugMsg($"F{floor} 参数被重置", Debugging);
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public void Register()
-        {
         }
     }
     
@@ -669,34 +931,6 @@ public class PilgrimTraverseBossAuto
 }
 
 #region 函数集
-public static class EventExtensions
-{
-    private static bool ParseHexId(string? idStr, out uint id)
-    {
-        id = 0;
-        if (string.IsNullOrEmpty(idStr)) return false;
-        try
-        {
-            var idStr2 = idStr.Replace("0x", "");
-            id = uint.Parse(idStr2, System.Globalization.NumberStyles.HexNumber);
-            return true;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
-
-    public static uint Id0(this Event @event)
-    {
-        return ParseHexId(@event["Id"], out var id) ? id : 0;
-    }
-    
-    public static uint Index(this Event ev)
-    {
-        return JsonConvert.DeserializeObject<uint>(ev["Index"]);
-    }
-}
 
 public static class IbcHelper
 {
@@ -705,56 +939,9 @@ public static class IbcHelper
         return sa.Data.Objects.SearchById(gameObjectId);
     }
     
-    public static IGameObject? GetMe(this ScriptAccessory sa)
-    {
-        return sa.Data.Objects.LocalPlayer;
-    }
-
     public static IEnumerable<IGameObject?> GetByDataId(this ScriptAccessory sa, uint dataId)
     {
         return sa.Data.Objects.Where(x => x.DataId == dataId);
-    }
-
-    public static string GetPlayerJob(this ScriptAccessory sa, IPlayerCharacter? playerObject, bool fullName = false)
-    {
-        if (playerObject == null) return "None";
-        return fullName ? playerObject.ClassJob.Value.Name.ToString() : playerObject.ClassJob.Value.Abbreviation.ToString();
-    }
-
-    public static float GetStatusRemainingTime(this ScriptAccessory sa, IBattleChara? battleChara, uint statusId)
-    {
-        if (battleChara == null || !battleChara.IsValid()) return 0;
-        unsafe
-        {
-            BattleChara* charaStruct = (BattleChara*)battleChara.Address;
-            var statusIdx = charaStruct->GetStatusManager()->GetStatusIndex(statusId);
-            return charaStruct->GetStatusManager()->GetRemainingTime(statusIdx);
-        }
-    }
-    
-    public static List<ulong> GetTetherSource(this ScriptAccessory sa, IBattleChara? battleChara, uint tetherId)
-    {
-        List<ulong> tetherSourceId = [];
-        if (battleChara == null || !battleChara.IsValid()) return [];
-        unsafe
-        {
-            BattleChara* chara = (BattleChara*)battleChara.Address;
-            var tetherList = chara->Vfx.Tethers;
-
-            foreach (var tether in tetherList)
-            {
-                if (tether.Id != tetherId) continue;
-                tetherSourceId.Add(tether.TargetId.ObjectId);
-            }
-        }
-        return tetherSourceId;
-    }
-    
-    public static unsafe byte? GetTransformationId(this ScriptAccessory sa, IGameObject? obj)
-    {
-        if (obj == null) return null;
-        Character* objStruct = (Character*)obj.Address;
-        return objStruct->Timeline.ModelState;
     }
 }
 #region 计算函数
@@ -865,96 +1052,9 @@ public static class MathTools
     public static int GetBinaryBit(this int val, int bitPosition)
         => (val >> bitPosition) & 1;
     
-    /// <summary>
-    /// 获得两个弧度（rad到radReference）的差值，逆时针增加大于0
-    /// </summary>
-    /// <param name="rad">取值角度</param>
-    /// <param name="radReference">参考角度</param>
-    /// <returns></returns>
-    public static float GetDiffRad(this float rad, float radReference)
-    {
-        var diff = (rad - radReference + 4 * float.Pi) % (2 * float.Pi);
-        if (diff > float.Pi) diff -= 2 * float.Pi;
-        return diff;
-    }
 }
 
 #endregion 计算函数
-
-#region 位置序列函数
-public static class IndexHelper
-{
-    /// <summary>
-    /// 输入玩家dataId，获得对应的位置index
-    /// </summary>
-    /// <param name="pid">玩家SourceId</param>
-    /// <param name="sa"></param>
-    /// <returns>该玩家对应的位置index</returns>
-    public static int GetPlayerIdIndex(this ScriptAccessory sa, uint pid)
-    {
-        // 获得玩家 IDX
-        return sa.Data.PartyList.IndexOf(pid);
-    }
-
-    /// <summary>
-    /// 获得主视角玩家对应的位置index
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <returns>主视角玩家对应的位置index</returns>
-    public static int GetMyIndex(this ScriptAccessory sa)
-    {
-        return sa.Data.PartyList.IndexOf(sa.Data.Me);
-    }
-
-    /// <summary>
-    /// 输入玩家dataId，获得对应的位置称呼，输出字符仅作文字输出用
-    /// </summary>
-    /// <param name="pid">玩家SourceId</param>
-    /// <param name="sa"></param>
-    /// <returns>该玩家对应的位置称呼</returns>
-    public static string GetPlayerJobById(this ScriptAccessory sa, uint pid)
-    {
-        // 获得玩家职能简称，无用处，仅作DEBUG输出
-        var idx = sa.Data.PartyList.IndexOf(pid);
-        var str = sa.GetPlayerJobByIndex(idx);
-        return str;
-    }
-
-    /// <summary>
-    /// 输入位置index，获得对应的位置称呼，输出字符仅作文字输出用
-    /// </summary>
-    /// <param name="idx">位置index</param>
-    /// <param name="fourPeople">是否为四人迷宫</param>
-    /// <param name="sa"></param>
-    /// <returns></returns>
-    public static string GetPlayerJobByIndex(this ScriptAccessory sa, int idx, bool fourPeople = false)
-    {
-        List<string> role8 = ["MT", "ST", "H1", "H2", "D1", "D2", "D3", "D4"];
-        List<string> role4 = ["T", "H", "D1", "D2"];
-        if (idx < 0 || idx >= 8 || (fourPeople && idx >= 4))
-            return "Unknown";
-        return fourPeople ? role4[idx] : role8[idx];
-    }
-    
-    /// <summary>
-    /// 将List内信息转换为字符串。
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="myList"></param>
-    /// <param name="isJob">是职业，在转为字符串前调用转职业函数</param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public static string BuildListStr<T>(this ScriptAccessory sa, List<T> myList, bool isJob = false)
-    {
-        return string.Join(", ", myList.Select(item =>
-        {
-            if (isJob && item != null && item is int i)
-                return sa.GetPlayerJobByIndex(i);
-            return item?.ToString() ?? "";
-        }));
-    }
-}
-#endregion 位置序列函数
 
 #region 绘图函数
 
@@ -1082,215 +1182,6 @@ public static class DrawTools
         => sa.DrawOwnerBase(ownerObj, 0, delay, destroy, name, 2 * float.Pi, 0, scale, scale,
             0, 0, DrawModeEnum.Default, DrawTypeEnum.Circle, isSafe, byTime,false, draw);
 
-    /// <summary>
-    /// 返回环形绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="ownerObj">圆心</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="outScale">外径</param>
-    /// <param name="innerScale">内径</param>
-    /// <param name="byTime">是否随时间扩充</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawDonut(this ScriptAccessory sa,
-        object ownerObj, int delay, int destroy, string name,
-        float outScale, float innerScale, bool isSafe = false, bool byTime = false, bool draw = true)
-        => sa.DrawOwnerBase(ownerObj, 0, delay, destroy, name, 2 * float.Pi, 0, outScale, outScale, innerScale,
-            innerScale, DrawModeEnum.Default, DrawTypeEnum.Donut, isSafe, byTime, false, draw);
-
-    /// <summary>
-    /// 返回扇形绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="ownerObj">圆心</param>
-    /// <param name="targetObj">目标</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="radian">弧度</param>
-    /// <param name="rotation">旋转角度</param>
-    /// <param name="outScale">外径</param>
-    /// <param name="innerScale">内径</param>
-    /// <param name="byTime">是否随时间扩充</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawFan(this ScriptAccessory sa,
-        object ownerObj, object targetObj, int delay, int destroy, string name, float radian, float rotation,
-        float outScale, float innerScale, bool isSafe = false, bool byTime = false, bool draw = true)
-        => sa.DrawOwnerBase(ownerObj, targetObj, delay, destroy, name, radian, rotation, outScale, outScale, innerScale,
-            innerScale, DrawModeEnum.Default, innerScale == 0 ? DrawTypeEnum.Fan : DrawTypeEnum.Donut, isSafe, byTime, false, draw);
-
-    public static DrawPropertiesEdit DrawFan(this ScriptAccessory sa,
-        object ownerObj, int delay, int destroy, string name, float radian, float rotation,
-        float outScale, float innerScale, bool isSafe = false, bool byTime = false, bool draw = true)
-        => sa.DrawFan(ownerObj, 0, delay, destroy, name, radian, rotation, outScale, innerScale, isSafe, byTime, draw);
-
-    /// <summary>
-    /// 返回矩形绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="ownerObj">矩形起始</param>
-    /// <param name="targetObj">目标</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="rotation">旋转角度</param>
-    /// <param name="width">矩形宽度</param>
-    /// <param name="length">矩形长度</param>
-    /// <param name="byTime">是否随时间扩充</param>
-    /// <param name="byY">是否随距离扩充</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawRect(this ScriptAccessory sa,
-        object ownerObj, object targetObj, int delay, int destroy, string name, float rotation,
-        float width, float length, bool isSafe = false, bool byTime = false, bool byY = false, bool draw = true)
-        => sa.DrawOwnerBase(ownerObj, targetObj, delay, destroy, name, 0, rotation, width, length, 0, 0,
-            DrawModeEnum.Default, DrawTypeEnum.Rect, isSafe, byTime, byY, draw);
-    
-    public static DrawPropertiesEdit DrawRect(this ScriptAccessory sa,
-        object ownerObj, int delay, int destroy, string name, float rotation,
-        float width, float length, bool isSafe = false, bool byTime = false, bool byY = false, bool draw = true)
-        => sa.DrawRect(ownerObj, 0, delay, destroy, name, rotation, width, length, isSafe, byTime, byY, draw);
-    
-    /// <summary>
-    /// 返回背对绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="targetObj">目标</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawSightAvoid(this ScriptAccessory sa,
-        object targetObj, int delay, int destroy, string name, bool isSafe = true, bool draw = true)
-        => sa.DrawOwnerBase(sa.Data.Me, targetObj, delay, destroy, name, 0, 0, 0, 0, 0, 0,
-            DrawModeEnum.Default, DrawTypeEnum.SightAvoid, isSafe, false, false, draw);
-
-    /// <summary>
-    /// 返回击退绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="targetObj">击退源</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="width">箭头宽</param>
-    /// <param name="length">箭头长</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawKnockBack(this ScriptAccessory sa,
-        object targetObj, int delay, int destroy, string name, float width, float length,
-        bool isSafe = false, bool draw = true)
-        => sa.DrawOwnerBase(sa.Data.Me, targetObj, delay, destroy, name, 0, float.Pi, width, length, 0, 0,
-            DrawModeEnum.Default, DrawTypeEnum.Displacement, isSafe, false, false, draw);
-
-    /// <summary>
-    /// 返回线型绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="ownerObj">线条起始</param>
-    /// <param name="targetObj">线条目标</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="rotation">旋转角度</param>
-    /// <param name="width">线条宽度</param>
-    /// <param name="length">线条长度</param>
-    /// <param name="byTime">是否随时间扩充</param>
-    /// <param name="byY">是否随距离扩充</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawLine(this ScriptAccessory sa,
-        object ownerObj, object targetObj, int delay, int destroy, string name, float rotation,
-        float width, float length, bool isSafe = false, bool byTime = false, bool byY = false, bool draw = true)
-        => sa.DrawOwnerBase(ownerObj, targetObj, delay, destroy, name, 1, rotation, width, length, 0, 0,
-            DrawModeEnum.Default, DrawTypeEnum.Line, isSafe, byTime, byY, draw);
-    
-    /// <summary>
-    /// 返回两对象间连线绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="ownerObj">起始源</param>
-    /// <param name="targetObj">目标源</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="width">线宽</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawConnection(this ScriptAccessory sa, object ownerObj, object targetObj,
-        int delay, int destroy, string name, float width = 1f, bool isSafe = false, bool draw = true)
-        => sa.DrawOwnerBase(ownerObj, targetObj, delay, destroy, name, 0, 0, width, width,
-            0, 0, DrawModeEnum.Imgui, DrawTypeEnum.Line, isSafe, false, true, draw);
-
-    /// <summary>
-    /// 赋予输入的dp以ownerId为源的远近目标绘图
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="isNearOrder">从owner计算，近顺序或远顺序</param>
-    /// <param name="orderIdx">从1开始</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit SetOwnersDistanceOrder(this DrawPropertiesEdit self, bool isNearOrder,
-        uint orderIdx)
-    {
-        self.CentreResolvePattern = isNearOrder
-            ? PositionResolvePatternEnum.PlayerNearestOrder
-            : PositionResolvePatternEnum.PlayerFarestOrder;
-        self.CentreOrderIndex = orderIdx;
-        return self;
-    }
-    
-    /// <summary>
-    /// 赋予输入的dp以ownerId为源的仇恨顺序绘图
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="orderIdx">仇恨顺序，从1开始</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit SetOwnersEnmityOrder(this DrawPropertiesEdit self, uint orderIdx)
-    {
-        self.CentreResolvePattern = PositionResolvePatternEnum.OwnerEnmityOrder;
-        self.CentreOrderIndex = orderIdx;
-        return self;
-    }
-    
-    /// <summary>
-    /// 赋予输入的dp以position为源的远近目标绘图
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="isNearOrder">从owner计算，近顺序或远顺序</param>
-    /// <param name="orderIdx">从1开始</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit SetPositionDistanceOrder(this DrawPropertiesEdit self, bool isNearOrder,
-        uint orderIdx)
-    {
-        self.TargetResolvePattern = isNearOrder
-            ? PositionResolvePatternEnum.PlayerNearestOrder
-            : PositionResolvePatternEnum.PlayerFarestOrder;
-        self.TargetOrderIndex = orderIdx;
-        return self;
-    }
-    
-    /// <summary>
-    /// 赋予输入的dp以ownerId施法目标为源的绘图
-    /// </summary>
-    /// <param name="self"></param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit SetOwnersTarget(this DrawPropertiesEdit self)
-    {
-        self.TargetResolvePattern = PositionResolvePatternEnum.OwnerTarget;
-        return self;
-    }
 }
 
 #endregion 绘图函数
@@ -1338,90 +1229,6 @@ public static class SpecialFunction
         sa.Log.Debug($"SetTargetable {targetable} => {obj.Name} {obj}");
     }
 
-    public static unsafe void ScaleModify(this ScriptAccessory sa, IGameObject? obj, float scale, bool vfxScaled = true)
-    {
-        sa.Method.RunOnMainThreadAsync(Action);
-        void Action()
-        {
-            if (obj == null) return;
-            GameObject* charaStruct = (GameObject*)obj.Address;
-            if (!obj.IsValid() || !charaStruct->IsReadyToDraw())
-            {
-                sa.Log.Error($"传入的IGameObject不合法。");
-                return;
-            }
-            charaStruct->Scale = scale;
-            if (vfxScaled)
-                charaStruct->VfxScale = scale;
-
-            if (charaStruct->IsCharacter())
-                ((BattleChara*)charaStruct)->Character.CharacterData.ModelScale = scale;
-        
-            charaStruct->DisableDraw();
-            charaStruct->EnableDraw();
-        
-            sa.Log.Debug($"ScaleModify => {obj.Name.TextValue} | {obj} => {scale}");
-        }
-    }
-
-    public static void SetRotation(this ScriptAccessory sa, IGameObject? obj, float radian, bool show = false)
-    {
-        if (obj == null || !obj.IsValid())
-        {
-            sa.Log.Error($"传入的IGameObject不合法。");
-            return;
-        }
-        unsafe
-        {
-            GameObject* charaStruct = (GameObject*)obj.Address;
-            charaStruct->SetRotation(radian);
-        }
-        sa.Log.Debug($"改变面向 {obj.Name.TextValue} | {obj.EntityId} => {radian.RadToDeg()}");
-        
-        if (!show) return;
-        var ownerObj = sa.GetById(obj.EntityId);
-        if (ownerObj == null) return;
-        var dp = sa.DrawGuidance(ownerObj, 0, 0, 2000, $"改变面向 {obj.Name.TextValue}", radian, draw: false);
-        dp.FixRotation = true;
-        sa.Method.SendDraw(DrawModeEnum.Imgui, DrawTypeEnum.Arrow, dp);
-        
-    }
-
-    public static void SetPosition(this ScriptAccessory sa, IGameObject? obj, Vector3 position, bool show = false)
-    {
-        if (obj == null || !obj.IsValid())
-        {
-            sa.Log.Error($"传入的IGameObject不合法。");
-            return;
-        }
-        unsafe
-        {
-            GameObject* charaStruct = (GameObject*)obj.Address;
-            charaStruct->SetPosition(position.X, position.Y, position.Z);
-        }
-        sa.Log.Debug($"改变位置 => {obj.Name.TextValue} | {obj.EntityId} => {position}");
-        
-        if (!show) return;
-        var dp = sa.DrawCircle(position, 0, 2000, $"传送点 {obj.Name.TextValue}", 0.5f, true, draw: false);
-        sa.Method.SendDraw(DrawModeEnum.Imgui, DrawTypeEnum.Circle, dp);
-        
-    }
-    
-    public static unsafe void WriteVisible(this ScriptAccessory sa, IGameObject? actor, bool visible)
-    {
-        const VisibilityFlags VISIBLE_FLAG = VisibilityFlags.None;
-        const VisibilityFlags INVISIBILITY_FLAG = VisibilityFlags.Model;
-        try
-        {
-            var flagsPtr = &((GameObject*)actor?.Address)->RenderFlags;
-            *flagsPtr = visible ? VISIBLE_FLAG : INVISIBILITY_FLAG;
-        }
-        catch (Exception e)
-        {
-            sa.Log.Error(e.ToString());
-            throw;
-        }
-    }
 }
 
 #endregion 特殊函数

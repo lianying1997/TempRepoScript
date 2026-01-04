@@ -2,12 +2,12 @@
   {
     "Name": "MazeClear妖宫Boss辅助",
     "Guid": "fb8c4010-82cf-4d35-9ce8-c80b58215a9d",
-    "Version": "0.0.0.1",
+    "Version": "0.0.0.2",
     "Author": "Usami",
     "Repo": "",
     "DownloadUrl": "https://raw.githubusercontent.com/lianying1997/TempRepoScript/main/PilgrimTraverseBossAuto.cs",
-    "Note": "0.0.0.1\r\n与MazeClear配合实现的妖宫boss辅助，\r\n用当前可支配的手段解决一些BMR不太理想的行动。\r\n单人模式限定，配合I-ching、vnavmesh、BMR使用。",
-    "UpdateInfo": "0.0.0.1\r\n10、20 OK",
+    "Note": "0.0.0.2\r\n与MazeClear配合实现的妖宫boss辅助，\r\n用当前可支配的手段解决一些BMR不太理想的行动。\r\n单人模式限定，配合I-ching、vnavmesh、BMR使用。",
+    "UpdateInfo": "0.0.0.2\r\nAll Boss OK",
     "TerritoryIds": [
       1281,
       1282,
