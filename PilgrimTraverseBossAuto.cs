@@ -625,11 +625,13 @@ public class PilgrimTraverseBossAuto
                 if (((IBattleChara)_bsp.F99_DarkManObj).HasStatus(DEAD_BUFF_ID))
                 {
                     _bsp.F99_nextBuffState = 1;
+                    sa.Method.UnregistFrameworkUpdateAction(_bsp.F99_setHpDiffFrameWorkAction);
                     return;
                 }
                 if (((IBattleChara)_bsp.F99_LightWomanObj).HasStatus(DEAD_BUFF_ID))
                 {
                     _bsp.F99_nextBuffState = 2;
+                    sa.Method.UnregistFrameworkUpdateAction(_bsp.F99_setHpDiffFrameWorkAction);
                     return;
                 }
                 
@@ -1162,26 +1164,6 @@ public static class DrawTools
         object targetObj, int delay, int destroy, string name, float rotation = 0, float width = 1f, bool isSafe = true,
         bool draw = true)
         => sa.DrawGuidance((ulong)sa.Data.Me, targetObj, delay, destroy, name, rotation, width, isSafe, draw);
-
-    /// <summary>
-    /// 返回圆形绘图
-    /// </summary>
-    /// <param name="sa"></param>
-    /// <param name="ownerObj">圆心</param>
-    /// <param name="delay">延时</param>
-    /// <param name="destroy">消失时间</param>
-    /// <param name="name">绘图名字</param>
-    /// <param name="scale">圆形径长</param>
-    /// <param name="byTime">是否随时间扩充</param>
-    /// <param name="isSafe">是否安全色</param>
-    /// <param name="draw">是否直接绘制</param>
-    /// <returns></returns>
-    public static DrawPropertiesEdit DrawCircle(this ScriptAccessory sa,
-        object ownerObj, int delay, int destroy, string name,
-        float scale, bool isSafe = false, bool byTime = false, bool draw = true)
-        => sa.DrawOwnerBase(ownerObj, 0, delay, destroy, name, 2 * float.Pi, 0, scale, scale,
-            0, 0, DrawModeEnum.Default, DrawTypeEnum.Circle, isSafe, byTime,false, draw);
-
 }
 
 #endregion 绘图函数
