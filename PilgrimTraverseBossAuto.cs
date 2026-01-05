@@ -46,7 +46,7 @@ public class PilgrimTraverseBossAuto
          """;
 
     private const string Name = "MazeClear妖宫Boss辅助";
-    private const string Version = "0.0.0.2";
+    private const string Version = "0.0.0.3";
     private const string DebugVersion = "a";
     private const bool Debugging = false;
     private bool _enable = true;
@@ -55,9 +55,9 @@ public class PilgrimTraverseBossAuto
     
     public void Init(ScriptAccessory sa)
     {
-        RefreshParams(sa);
-        sa.Method.RemoveDraw(".*");
         sa.Method.ClearFrameworkUpdateAction(this);
+        sa.Method.RemoveDraw(".*");
+        RefreshParams(sa);
         if (sa.Data.PartyList.Count > 1)
         {
             sa.DebugMsg($"检测到非单人模式，BossAuto辅助关闭");
@@ -110,10 +110,10 @@ public class PilgrimTraverseBossAuto
     {
         if (!_enable) return;
         var center = new Vector3(-300, 0, -300);
-        sa.DrawGuidance(new Vector3(-300, 0, -300), 0, 3000, $"分株去场中");
+        // sa.DrawGuidance(new Vector3(-300, 0, -300), 0, 3000, $"分株去场中");
         SwitchAiMode(sa, false);
         MoveTo(sa, center);
-        sa.DebugMsg($"分株读条，关闭BMR，移动至场中");
+        sa.DebugMsg($"分株读条，关闭BMR，移动至场中", Debugging);
     }
     
     [ScriptMethod(name: "百花齐放移动", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44855"],
@@ -141,7 +141,7 @@ public class PilgrimTraverseBossAuto
                 var safeRegionRadian = i * 45f.DegToRad();
                 var safePos = new Vector3(-300, 0, -285).RotateAndExtend(center, safeRegionRadian);
                 
-                sa.DrawGuidance(safePos, 0, 10000, $"百花齐放安全点");
+                // sa.DrawGuidance(safePos, 0, 10000, $"百花齐放安全点");
                 MoveTo(sa, safePos);
                 
                 break;
@@ -177,7 +177,7 @@ public class PilgrimTraverseBossAuto
             var safePosRadian = _bsp.F10B_castRegionVal.GetDecimalDigit(3) * 45f.DegToRad();
             var basePos = new Vector3(-300, 0, -300 + 8.5f);
             var safePos = basePos.RotateAndExtend(center, safePosRadian);
-            sa.DrawGuidance(safePos, 0, 2000, $"压花四穿一准备");
+            // sa.DrawGuidance(safePos, 0, 2000, $"压花四穿一准备");
             MoveTo(sa, safePos);
         }
     }
@@ -198,7 +198,7 @@ public class PilgrimTraverseBossAuto
                 var safePosRadian = _bsp.F10B_castRegionVal.GetDecimalDigit(0) * 45f.DegToRad();
                 var basePos = new Vector3(-300, 0, -300 + 8.5f);
                 var safePos = basePos.RotateAndExtend(center, safePosRadian);
-                sa.DrawGuidance(safePos, 0, 4000, $"压花四穿一");
+                // sa.DrawGuidance(safePos, 0, 4000, $"压花四穿一");
                 MoveTo(sa, safePos);
             }
 
@@ -230,7 +230,7 @@ public class PilgrimTraverseBossAuto
         SwitchAiMode(sa, false);
         MoveTo(sa, center);
         SwitchAntiKnockback(sa, true);
-        sa.DebugMsg($"空降施法，开启I-ching防击退，关闭BMR，回中");
+        sa.DebugMsg($"空降施法，开启I-ching防击退，关闭BMR，回中", Debugging);
     }
     
     [ScriptMethod(name: "空降移动第一轮", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:2056", "StackCount:regex:^(149|15[012])$"],
@@ -258,7 +258,7 @@ public class PilgrimTraverseBossAuto
             var safePosRadian = _bsp.F20A_castRegionVal.GetDecimalDigit(3) * 45f.DegToRad();
             var basePos = new Vector3(-300, 0, -300 + 7.5f);
             var safePos = basePos.RotateAndExtend(center, safePosRadian);
-            sa.DrawGuidance(safePos, 0, 2000, $"空降四穿一准备");
+            // sa.DrawGuidance(safePos, 0, 2000, $"空降四穿一准备");
             MoveTo(sa, safePos);
         }
     }
@@ -273,7 +273,7 @@ public class PilgrimTraverseBossAuto
         var safePosRadian = _bsp.F20A_castRegionVal.GetDecimalDigit(0) * 45f.DegToRad();
         var basePos = new Vector3(-300, 0, -300 + 7.5f);
         var safePos = basePos.RotateAndExtend(center, safePosRadian);
-        sa.DrawGuidance(safePos, 0, 4000, $"空降四穿一");
+        // sa.DrawGuidance(safePos, 0, 4000, $"空降四穿一");
         MoveTo(sa, safePos);
     }
     
@@ -285,7 +285,7 @@ public class PilgrimTraverseBossAuto
         SwitchAiMode(sa, true);
         _bsp.Reset(sa, 20);
         SwitchAntiKnockback(sa, false);
-        sa.DebugMsg($"空降结束，关闭I-ching防击退，开启BMR");
+        sa.DebugMsg($"空降结束，关闭I-ching防击退，开启BMR", Debugging);
     }
     
     #endregion F20 得到宽恕的欧米茄
@@ -312,9 +312,9 @@ public class PilgrimTraverseBossAuto
         var basePos = new Vector3(-300, 0, -283);
         // 十二等分，360 / 12 = 30
         var startPos = basePos.RotateAndExtend(center, region * 30f.DegToRad());
-        sa.DrawGuidance(startPos, 0, 4000, $"落光起跑点");
+        // sa.DrawGuidance(startPos, 0, 4000, $"落光起跑点");
         MoveTo(sa, startPos);
-        sa.DebugMsg($"落光施法，当前区域为 {region}，前往起跑点，关闭BMR");
+        sa.DebugMsg($"落光施法，当前区域为 {region}，前往起跑点，关闭BMR", Debugging);
     }
     
     [ScriptMethod(name: "落光开始跑地火", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:44918"],
@@ -337,9 +337,9 @@ public class PilgrimTraverseBossAuto
             var basePos = new Vector3(-300, 0, -283);
             var targetPos = basePos.RotateAndExtend(center, nextRegion * 30f.DegToRad());
             _bsp.F30A_playerTargetRegion = nextRegion;
-            sa.DrawGuidance(targetPos, 0, 4000, $"落光目标点{nextRegion}");
+            // sa.DrawGuidance(targetPos, 0, 4000, $"落光目标点{nextRegion}");
             MoveTo(sa, targetPos);
-            sa.DebugMsg($"前往下一个区域 {region}");
+            sa.DebugMsg($"前往下一个区域 {region}", Debugging);
         }
     }
 
@@ -354,7 +354,7 @@ public class PilgrimTraverseBossAuto
         sa.Method.UnregistFrameworkUpdateAction(_bsp.F30A_frameWorkAction);
         MoveStop(sa);
         SwitchAiMode(sa, true);
-        sa.DebugMsg($"跑地火结束，开启BMR");
+        sa.DebugMsg($"跑地火结束，开启BMR", Debugging);
     }
 
     #endregion F30 得到宽恕的哈迪斯
@@ -373,7 +373,7 @@ public class PilgrimTraverseBossAuto
     {
         if (!_enable) return;
         SwitchAiMode(sa, false);
-        sa.DebugMsg($"进沙坑读条，关闭BMR");
+        sa.DebugMsg($"进沙坑读条，关闭BMR", Debugging);
         var myPos = sa.Data.MyObject.Position;
 
         var minDistance = 40f;
@@ -391,12 +391,12 @@ public class PilgrimTraverseBossAuto
             }
             // 3代表在当前小石头上
             if (distance > 3f) continue;
-            sa.DrawGuidance(spot, 0, 4000, $"沙坑起跑点");
+            // sa.DrawGuidance(spot, 0, 4000, $"沙坑起跑点");
             MoveTo(sa, spot);
             return;
         }
         // 若未在给定的小石头上，去离自己最近的那个
-        sa.DrawGuidance(minSpot, 0, 4000, $"沙坑起跑点");
+        // sa.DrawGuidance(minSpot, 0, 4000, $"沙坑起跑点");
         MoveTo(sa, minSpot);
     }
     
@@ -423,7 +423,7 @@ public class PilgrimTraverseBossAuto
             // var nextSpotIdx = (_bsp.F50A_targetSpotIdx + 6 - 1) % 6;
             var nextTargetSpot = _bsp.F50A_safeSpots[nextSpotIdx];
             _bsp.F50A_targetSpotIdx = nextSpotIdx;
-            sa.DrawGuidance(nextTargetSpot, 0, 4000, $"沙坑目标{nextSpotIdx}");
+            // sa.DrawGuidance(nextTargetSpot, 0, 4000, $"沙坑目标{nextSpotIdx}");
             MoveTo(sa, nextTargetSpot);
         }
     }
@@ -439,7 +439,7 @@ public class PilgrimTraverseBossAuto
         sa.Method.UnregistFrameworkUpdateAction(_bsp.F50A_frameWorkAction);
         MoveStop(sa);
         SwitchAiMode(sa, true);
-        sa.DebugMsg($"破坑而出结束，开启BMR");
+        sa.DebugMsg($"破坑而出结束，开启BMR", Debugging);
     }
     
     #endregion 得到宽恕的沙坑
@@ -467,7 +467,7 @@ public class PilgrimTraverseBossAuto
             _bsp.F60A_castCountOdd = !_bsp.F60A_castCountOdd;
             SwitchAiMode(sa, !_bsp.F60A_castCountOdd);
         }
-        sa.DebugMsg($"四列式分株：{_bsp.F60A_castCountOdd}");
+        sa.DebugMsg($"四列式分株：{_bsp.F60A_castCountOdd}", Debugging);
     }
     
     [ScriptMethod(name: "仙人花路径点", eventType: EventTypeEnum.SetObjPos, eventCondition: ["SourceDataId:18912"],
@@ -489,7 +489,7 @@ public class PilgrimTraverseBossAuto
             _ => 4
         };
         _bsp.F60A_sourcePosIdxVal += (int)(colIdx * Math.Pow(10, digitIdx) + rowIdx * Math.Pow(10, digitIdx + 1));
-        sa.DebugMsg($"F60A_sourcePosIdxVal : {_bsp.F60A_sourcePosIdxVal}");
+        sa.DebugMsg($"F60A_sourcePosIdxVal : {_bsp.F60A_sourcePosIdxVal}", Debugging);
         // 计算安全区
         if (digitIdx != 4) return;
         // 检测1与3是否在同行，若同行则处于情况一，不同行情况二
@@ -510,13 +510,13 @@ public class PilgrimTraverseBossAuto
             destRow = destRow == 2 ? 1 : 4;
         _bsp.F60A_safePosRouteIdxVal += destCol * 100 + destRow * 1000;
         
-        sa.DebugMsg($"仙人掌记录：{_bsp.F60A_sourcePosIdxVal}，安全路径记录：{_bsp.F60A_safePosRouteIdxVal}");
+        sa.DebugMsg($"仙人掌记录：{_bsp.F60A_sourcePosIdxVal}，安全路径记录：{_bsp.F60A_safePosRouteIdxVal}", Debugging);
         // 直接移动到起跑点
 
         var startPosX = startCol * 10 - 625f + (destCol < startCol ? -4.5f : 4.5f);
         var startPosZ = startRow * 10 - 325f + (destRow < startRow ? -4.5f : 4.5f);
         var startPos = new Vector3(startPosX, 0, startPosZ);
-        sa.DrawGuidance(startPos, 0, 4000, $"起跑点");
+        // sa.DrawGuidance(startPos, 0, 4000, $"起跑点");
         MoveTo(sa, startPos);
     }
 
@@ -542,13 +542,13 @@ public class PilgrimTraverseBossAuto
 
             if (_bsp.F60A_routeState == 0 && Math.Abs(myPos.X - destPos.X) > 0.5f)
             {
-                sa.DrawGuidance(new Vector3(destPos.X, 0, myPos.Z), 0, 4000, $"横走");
+                // sa.DrawGuidance(new Vector3(destPos.X, 0, myPos.Z), 0, 4000, $"横走");
                 MoveTo(sa, new Vector3(destPos.X, 0, myPos.Z));
                 _bsp.F60A_routeState = 1;
             }
             else if (_bsp.F60A_routeState == 1 && Math.Abs(myPos.X - destPos.X) <= 0.5f && Math.Abs(myPos.Z - destPos.Z) > 0.5f)
             {
-                sa.DrawGuidance(destPos, 0, 4000, $"竖走");
+                // sa.DrawGuidance(destPos, 0, 4000, $"竖走");
                 MoveTo(sa, destPos);
                 _bsp.F60A_routeState = 2;
             }
@@ -563,7 +563,7 @@ public class PilgrimTraverseBossAuto
         sa.Method.UnregistFrameworkUpdateAction(_bsp.F60A_frameWorkAction);
         MoveStop(sa);
         SwitchAiMode(sa, true);
-        sa.DebugMsg($"飞针射击开始，仙人花结束，开启BMR");
+        sa.DebugMsg($"飞针射击开始，仙人花结束，开启BMR", Debugging);
     }
 
     #endregion F60 仙人掌
@@ -586,11 +586,11 @@ public class PilgrimTraverseBossAuto
         if (_bsp.F99_DarkManObj != null && _bsp.F99_LightWomanObj != null) return;
         _bsp.F99_DarkManObj = sa.GetByDataId(18666).FirstOrDefault() ?? throw new InvalidOperationException();
         _bsp.F99_LightWomanObj = sa.GetByDataId(18667).FirstOrDefault() ?? throw new InvalidOperationException();
-        sa.DebugMsg($"获得男女人ID：0x{_bsp.F99_DarkManObj.GameObjectId:x8}, 0x{_bsp.F99_LightWomanObj.GameObjectId:x8}");
+        sa.DebugMsg($"获得男女人ID：0x{_bsp.F99_DarkManObj.GameObjectId:x8}, 0x{_bsp.F99_LightWomanObj.GameObjectId:x8}", Debugging);
 
         _bsp.F99_DarkManHpMax = ((IBattleChara)_bsp.F99_DarkManObj).MaxHp;
         _bsp.F99_LightWomanHpMax = ((IBattleChara)_bsp.F99_LightWomanObj).MaxHp;
-        sa.DebugMsg($"获得男女人HP：{_bsp.F99_DarkManHpMax}, {_bsp.F99_LightWomanHpMax}");
+        sa.DebugMsg($"获得男女人HP：{_bsp.F99_DarkManHpMax}, {_bsp.F99_LightWomanHpMax}", Debugging);
         
         _bsp.F99_setTargetableFrameWorkAction = sa.Method.RegistFrameworkUpdateAction(ActionTarget);
         _bsp.F99_setHpDiffFrameWorkAction = sa.Method.RegistFrameworkUpdateAction(ActionHpDiff);
@@ -601,6 +601,7 @@ public class PilgrimTraverseBossAuto
             try
             {
                 // 4559 暗buff 1，4560 光Buff 2
+                if (!sa.Data.MyObject.IsValid()) return;
                 var myStatusState = (sa.Data.MyObject.HasStatus(4559) ? 1 : 0) + (sa.Data.MyObject.HasStatus(4560) ? 2 : 0);
                 if (myStatusState == 0) return;
                 if (myStatusState == _bsp.F99_buffState) return;
@@ -620,23 +621,13 @@ public class PilgrimTraverseBossAuto
         {
             try
             {
-                // 濒死检测
-                const uint DEAD_BUFF_ID = 4561;
-                if (((IBattleChara)_bsp.F99_DarkManObj).HasStatus(DEAD_BUFF_ID))
-                {
-                    _bsp.F99_nextBuffState = 1;
-                    sa.Method.UnregistFrameworkUpdateAction(_bsp.F99_setHpDiffFrameWorkAction);
-                    return;
-                }
-                if (((IBattleChara)_bsp.F99_LightWomanObj).HasStatus(DEAD_BUFF_ID))
-                {
-                    _bsp.F99_nextBuffState = 2;
-                    sa.Method.UnregistFrameworkUpdateAction(_bsp.F99_setHpDiffFrameWorkAction);
-                    return;
-                }
-                
-                var hpPercentMan = (float)((IBattleChara)_bsp.F99_DarkManObj).CurrentHp / _bsp.F99_DarkManHpMax;
-                var hpPercentWoman = (float)((IBattleChara)_bsp.F99_LightWomanObj).CurrentHp / _bsp.F99_LightWomanHpMax;
+                if (_bsp.F99_DarkManObj == null) return;
+                if (!_bsp.F99_DarkManObj.IsValid()) return;
+                if (_bsp.F99_DarkManObj is not IBattleChara darkMan) return;
+                if (_bsp.F99_LightWomanObj is not IBattleChara lightWoman) return;
+            
+                var hpPercentMan = (float)darkMan.CurrentHp / _bsp.F99_DarkManHpMax;
+                var hpPercentWoman = (float)lightWoman.CurrentHp / _bsp.F99_LightWomanHpMax;
 
                 // 倾向于每5%进行一次更换
                 if (hpPercentMan - hpPercentWoman > 0.05f)
@@ -672,7 +663,7 @@ public class PilgrimTraverseBossAuto
                     minDistance = distance;
                     minDistanceSwamp = swamp;
                 }
-                sa.DrawGuidance(minDistanceSwamp, 0, 4000, $"切换buff目标沼泽");
+                // sa.DrawGuidance(minDistanceSwamp, 0, 4000, $"切换buff目标沼泽");
                 MoveTo(sa, minDistanceSwamp);
             }
             catch (Exception e)
@@ -691,7 +682,7 @@ public class PilgrimTraverseBossAuto
         SwitchChangeBuffAvailability(sa, false);
         var distance = sa.Data.MyObject.Position.X - -600;
         var pos = sa.Data.MyObject.Position.WithX(distance > 0 ? -593 : -607);
-        sa.DrawGuidance(pos, 0, 4000, $"就近走");
+        // sa.DrawGuidance(pos, 0, 4000, $"就近走");
         MoveTo(sa, pos);
     }
     
@@ -709,6 +700,40 @@ public class PilgrimTraverseBossAuto
     {
         if (!_enable) return;
         SwitchChangeBuffAvailability(sa, true);
+    }
+    
+    [ScriptMethod(name: "热风旋风开始", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:regex:^(4406[1389])$"],
+        userControl: true)]
+    public void 热风旋风开始(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, false);
+    }
+    
+    [ScriptMethod(name: "热风结束", eventType: EventTypeEnum.StatusRemove, eventCondition: ["StatusID:4562"],
+        userControl: true)]
+    public void 热风结束(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, true);
+    }
+    
+    [ScriptMethod(name: "旋风结束", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:regex:^(44062)$"],
+        userControl: true, suppress: 2000)]
+    public void 旋风结束(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SwitchChangeBuffAvailability(sa, true);
+    }
+    
+    [ScriptMethod(name: "濒死Buff锁定", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:4561"],
+        userControl: true)]
+    public void 濒死Buff锁定(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        sa.DebugMsg($"检测到濒死Buff，锁定攻击目标", Debugging);
+        _bsp.F99_nextBuffState = ev.TargetId == _bsp.F99_DarkManObj.GameObjectId ? 1 : 2;
+        sa.Method.UnregistFrameworkUpdateAction(_bsp.F99_setHpDiffFrameWorkAction);
     }
     
     [ScriptMethod(name: "捕捉地火施法", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:regex:^(4407[45])$"],
@@ -738,7 +763,7 @@ public class PilgrimTraverseBossAuto
             
             if (ev.EffectPosition.X > center.X)
                 _bsp.F99A_exaflareSafePos = _bsp.F99A_exaflareSafePos.FoldPointHorizon(center.X);
-            sa.DebugMsg($"获得地火安全区：{(_bsp.F99A_exaflareSafePos.X < center.X ? "左" : "右")}{(_bsp.F99A_exaflareSafePos.Z < center.Z ? "上" : "下")}");
+            sa.DebugMsg($"获得地火安全区：{(_bsp.F99A_exaflareSafePos.X < center.X ? "左" : "右")}{(_bsp.F99A_exaflareSafePos.Z < center.Z ? "上" : "下")}", Debugging);
             _bsp.F99A_exaflareDone = true;
         }
     }
@@ -749,9 +774,9 @@ public class PilgrimTraverseBossAuto
     {
         if (!_enable) return;
         SwitchChangeBuffAvailability(sa, false);
-        sa.DrawGuidance(_bsp.F99A_exaflareSafePos, 0, 4000, $"地火安全区");
+        // sa.DrawGuidance(_bsp.F99A_exaflareSafePos, 0, 4000, $"地火安全区");
         MoveTo(sa, _bsp.F99A_exaflareSafePos);
-        sa.DebugMsg($"去地火安全区");
+        sa.DebugMsg($"去地火安全区", Debugging);
         _ = Task.Run(async () =>
         {
             await Task.Delay(13000);
@@ -804,16 +829,16 @@ public class PilgrimTraverseBossAuto
             _bsp.F99_buffStateExchangeEnable = false;
             if (!_bsp.F99_changeBuffIdle)
             {
-                sa.DebugMsg($"停止自动切换Buff寻路");
+                sa.DebugMsg($"停止自动切换Buff寻路", Debugging);
                 MoveStop(sa);
             }
             _bsp.F99_changeBuffIdle = true;
-            sa.DebugMsg($"禁止自动切换Buff");
+            sa.DebugMsg($"禁止自动切换Buff", Debugging);
         }
         else
         {
             _bsp.F99_buffStateExchangeEnable = true;
-            sa.DebugMsg($"允许自动切换Buff");
+            sa.DebugMsg($"允许自动切换Buff", Debugging);
         }
     }
     
