@@ -42,11 +42,11 @@ public class PilgrimTraverseBossAuto
     const string UpdateInfo =
         $"""
          {Version}
-         All Boss OK
+         F50 沙坑避免跑男修复
          """;
 
     private const string Name = "MazeClear妖宫Boss辅助";
-    private const string Version = "0.0.0.3";
+    private const string Version = "0.0.0.4";
     private const string DebugVersion = "a";
     private const bool Debugging = false;
     private bool _enable = true;
@@ -416,6 +416,8 @@ public class PilgrimTraverseBossAuto
             
             // 还没到则返回
             if (distance > 1.5f) return;
+            // 别再跑了
+            if (_bsp.F50A_spotCount >= 4) return;
             
             // 跑到下一个点
             sa.Method.RemoveDraw($"沙坑目标{_bsp.F50A_targetSpotIdx}");
@@ -423,6 +425,7 @@ public class PilgrimTraverseBossAuto
             // var nextSpotIdx = (_bsp.F50A_targetSpotIdx + 6 - 1) % 6;
             var nextTargetSpot = _bsp.F50A_safeSpots[nextSpotIdx];
             _bsp.F50A_targetSpotIdx = nextSpotIdx;
+            _bsp.F50A_spotCount++;
             // sa.DrawGuidance(nextTargetSpot, 0, 4000, $"沙坑目标{nextSpotIdx}");
             MoveTo(sa, nextTargetSpot);
         }
@@ -875,6 +878,7 @@ public class PilgrimTraverseBossAuto
         ];
         public int F50A_targetSpotIdx = -1;
         public string F50A_frameWorkAction = "";
+        public int F50A_spotCount = 0;
         
         // 分株仙人掌
         public bool F60A_castCountOdd = false;
@@ -935,6 +939,7 @@ public class PilgrimTraverseBossAuto
                 case 50:
                     F50A_targetSpotIdx = -1;
                     F50A_frameWorkAction = "";
+                    F50A_spotCount = 0;
                     break;
                 case 60:
                     F60A_castCountOdd = false;
