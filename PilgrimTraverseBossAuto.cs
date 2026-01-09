@@ -42,13 +42,14 @@ public class PilgrimTraverseBossAuto
     const string UpdateInfo =
         $"""
          {Version}
-         F50 沙坑避免跑男修复
+         F50 不跑地火修复，F50 修改地火行走方案
+         F10 压花修复
          """;
 
     private const string Name = "MazeClear妖宫Boss辅助";
-    private const string Version = "0.0.0.4";
+    private const string Version = "0.0.0.5";
     private const string DebugVersion = "a";
-    private const bool Debugging = false;
+    private const bool Debugging = true;
     private bool _enable = true;
 
     private static BossStateParams _bsp = new();
@@ -173,8 +174,11 @@ public class PilgrimTraverseBossAuto
             _bsp.F10B_castCount++;
             if (_bsp.F10B_castCount < 4) return;
             
-            // 去第四个位置待命
-            var safePosRadian = _bsp.F10B_castRegionVal.GetDecimalDigit(3) * 45f.DegToRad();
+            // 判断四穿一/三穿一
+            // 第四处的安全区与第一处的安全区呈对角关系，则选三穿一
+            var threeToOne = Math.Abs(_bsp.F10B_castRegionVal.GetDecimalDigit(3) - _bsp.F10B_castRegionVal.GetDecimalDigit(0)) == 4;
+            
+            var safePosRadian = _bsp.F10B_castRegionVal.GetDecimalDigit(threeToOne ? 2 : 3) * 45f.DegToRad();
             var basePos = new Vector3(-300, 0, -300 + 8.5f);
             var safePos = basePos.RotateAndExtend(center, safePosRadian);
             // sa.DrawGuidance(safePos, 0, 2000, $"压花四穿一准备");
@@ -350,8 +354,8 @@ public class PilgrimTraverseBossAuto
         // 光耀颂词读条完毕
         if (!_enable) return;
         if (_bsp.F30A_frameWorkAction == "") return;
-        _bsp.Reset(sa, 30);
         sa.Method.UnregistFrameworkUpdateAction(_bsp.F30A_frameWorkAction);
+        _bsp.Reset(sa, 30);
         MoveStop(sa);
         SwitchAiMode(sa, true);
         sa.DebugMsg($"跑地火结束，开启BMR", Debugging);
@@ -399,7 +403,19 @@ public class PilgrimTraverseBossAuto
         // sa.DrawGuidance(minSpot, 0, 4000, $"沙坑起跑点");
         MoveTo(sa, minSpot);
     }
-    
+
+    [ScriptMethod(name: "测试项-TargetSpot", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:43534"],
+        userControl: true)]
+    public void 测试项TargetSpot(Event ev, ScriptAccessory sa)
+    {
+        
+        var myPos = sa.Data.MyObject.Position;
+        var targetSpot = _bsp.F50A_safeSpots[_bsp.F50A_targetSpotIdx];
+        sa.DrawGuidance(targetSpot, 0, 2000, $"a");
+        var distance = Vector3.Distance(myPos.WithY(0), targetSpot.WithY(0));
+        sa.DebugMsg($"{targetSpot}, {distance}");
+    }
+
     [ScriptMethod(name: "破坑而出开始", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:43534"],
         userControl: true)]
     public void 破坑而出开始(Event ev, ScriptAccessory sa)
@@ -419,6 +435,7 @@ public class PilgrimTraverseBossAuto
             // 别再跑了
             if (_bsp.F50A_spotCount >= 4) return;
             
+            if (_bsp.F50A_spotCount != 0 && !_bsp.F50A_keepRunning) return;
             // 跑到下一个点
             sa.Method.RemoveDraw($"沙坑目标{_bsp.F50A_targetSpotIdx}");
             var nextSpotIdx = (_bsp.F50A_targetSpotIdx + 1) % 6;
@@ -431,6 +448,14 @@ public class PilgrimTraverseBossAuto
         }
     }
     
+    [ScriptMethod(name: "破坑而出继续奔跑", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:43534"],
+        userControl: true)]
+    public void 破坑而出继续奔跑(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        _bsp.F50A_keepRunning = true;
+    }
+    
     [ScriptMethod(name: "破坑而出结束", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:43536"],
         userControl: true)]
     public void 破坑而出结束(Event ev, ScriptAccessory sa)
@@ -438,8 +463,8 @@ public class PilgrimTraverseBossAuto
         // 最后一个出土
         if (!_enable) return;
         if (_bsp.F50A_frameWorkAction == "") return;
-        _bsp.Reset(sa, 50);
         sa.Method.UnregistFrameworkUpdateAction(_bsp.F50A_frameWorkAction);
+        _bsp.Reset(sa, 50);
         MoveStop(sa);
         SwitchAiMode(sa, true);
         sa.DebugMsg($"破坑而出结束，开启BMR", Debugging);
@@ -879,6 +904,7 @@ public class PilgrimTraverseBossAuto
         public int F50A_targetSpotIdx = -1;
         public string F50A_frameWorkAction = "";
         public int F50A_spotCount = 0;
+        public bool F50A_keepRunning = false;
         
         // 分株仙人掌
         public bool F60A_castCountOdd = false;
@@ -940,6 +966,7 @@ public class PilgrimTraverseBossAuto
                     F50A_targetSpotIdx = -1;
                     F50A_frameWorkAction = "";
                     F50A_spotCount = 0;
+                    F50A_keepRunning = false;
                     break;
                 case 60:
                     F60A_castCountOdd = false;
