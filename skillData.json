@@ -1,0 +1,50 @@
+[
+  {
+    "ID": 1,
+    "SkillName": "法令",
+    "Category": "白魔法师",
+    "ActionID": 3571,
+    "Level": 100,
+    "IsDamageSkill": false,
+    "MainVal": 400,
+    "ContVal": 0,
+    "Times": 0,
+    "MinorVal": 0,
+    "MitPercent": 0,
+    "MitType": 0,
+    "BuffPercent": 0,
+    "Duration": 0
+  },
+  {
+    "ID": 2,
+    "SkillName": "节制",
+    "Category": "白魔法师",
+    "ActionID": 16536,
+    "Level": 100,
+    "IsDamageSkill": false,
+    "MainVal": 0,
+    "ContVal": 0,
+    "Times": 0,
+    "MinorVal": 0,
+    "MitPercent": 10,
+    "MitType": 0,
+    "BuffPercent": 20,
+    "Duration": 20
+  },
+  {
+    "ID": 3,
+    "SkillName": "鼓舞激励之策",
+    "Category": "学者",
+    "ActionID": 185,
+    "Level": 100,
+    "IsDamageSkill": false,
+    "MainVal": 300,
+    "ContVal": 0,
+    "Times": 0,
+    "MinorVal": 540,
+    "MitPercent": 0,
+    "MitType": 0,
+    "BuffPercent": 0,
+    "Duration": 30
+  }
+]
