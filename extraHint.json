@@ -1,5 +1,17 @@
 [
   {
+    "ID": 76,
+    "SkillName": "能量吸收",
+    "Category": "学者",
+    "ActionID": 167,
+    "Level": "100",
+    "TemplateType": "damage_norm_calc",
+    "Value": "37.8",
+    "ColorType": "healing",
+    "Description": "对自身恢复力",
+    "Order": 0
+  },
+  {
     "ID": 2,
     "SkillName": "鼓舞激励之策",
     "Category": "学者",
@@ -300,6 +312,54 @@
     "Order": 3
   },
   {
+    "ID": 71,
+    "SkillName": "毁坏",
+    "Category": "学者",
+    "ActionID": 17870,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "多么完美的技能！",
+    "Order": 0
+  },
+  {
+    "ID": 72,
+    "SkillName": "毁坏",
+    "Category": "学者",
+    "ActionID": 17870,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "如同技能名一般，「毁天灭地」的攻击手段！",
+    "Order": 1
+  },
+  {
+    "ID": 73,
+    "SkillName": "毁坏",
+    "Category": "学者",
+    "ActionID": 17870,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "拥有极强的止损能力，是无使用限制的全瞬发技能！",
+    "Order": 2
+  },
+  {
+    "ID": 74,
+    "SkillName": "毁坏",
+    "Category": "学者",
+    "ActionID": 17870,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "学者在，毁二在！毁二永远不加强！",
+    "Order": 3
+  },
+  {
     "ID": 51,
     "SkillName": "心关",
     "Category": "贤者",
@@ -341,7 +401,7 @@
     "Category": "贤者",
     "ActionID": 24291,
     "Level": "100",
-    "TemplateType": "heal_norm_crit",
+    "TemplateType": "heal_crit_calc",
     "Value": "300",
     "ColorType": "healing",
     "Description": "暴击恢复力",
@@ -353,7 +413,7 @@
     "Category": "贤者",
     "ActionID": 24291,
     "Level": "100",
-    "TemplateType": "heal_norm_crit",
+    "TemplateType": "heal_crit_calc",
     "Value": "540",
     "ColorType": "shield",
     "Description": "暴击盾值(均衡/齐衡)",
@@ -516,6 +576,18 @@
     "Order": 2
   },
   {
+    "ID": 78,
+    "SkillName": "失衡II",
+    "Category": "贤者",
+    "ActionID": 24315,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于3时，威力大于“注药III”。",
+    "Order": 0
+  },
+  {
     "ID": 52,
     "SkillName": "魂灵风息",
     "Category": "贤者",
@@ -552,6 +624,30 @@
     "Order": 2
   },
   {
+    "ID": 69,
+    "SkillName": "豪圣",
+    "Category": "白魔法师",
+    "ActionID": 25860,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "4/2/1/0 秒",
+    "ColorType": "duration",
+    "Description": "眩晕时间",
+    "Order": 0
+  },
+  {
+    "ID": 70,
+    "SkillName": "豪圣",
+    "Category": "白魔法师",
+    "ActionID": 25860,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于3时，威力大于“闪灼”。",
+    "Order": 1
+  },
+  {
     "ID": 7,
     "SkillName": "礼仪之铃",
     "Category": "白魔法师",
@@ -576,6 +672,18 @@
     "Order": 1
   },
   {
+    "ID": 75,
+    "SkillName": "裂阵法",
+    "Category": "学者",
+    "ActionID": 25866,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于2时，威力大于“极炎法”。",
+    "Order": 0
+  },
+  {
     "ID": 16,
     "SkillName": "疾风怒涛之计",
     "Category": "学者",
@@ -585,6 +693,18 @@
     "Value": "10 秒",
     "ColorType": "duration",
     "Description": "疾跑效果持续时间",
+    "Order": 0
+  },
+  {
+    "ID": 77,
+    "SkillName": "中重力",
+    "Category": "占星术士",
+    "ActionID": 25872,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于2时，威力大于“落陷凶星”。",
     "Order": 0
   },
   {
@@ -777,6 +897,30 @@
     "Value": "30 秒",
     "ColorType": "duration",
     "Description": "盾值持续时间",
+    "Order": 1
+  },
+  {
+    "ID": 79,
+    "SkillName": "均衡失衡II",
+    "Category": "贤者",
+    "ActionID": 37032,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于3时，威力大于“均衡注药III”。",
+    "Order": 0
+  },
+  {
+    "ID": 80,
+    "SkillName": "均衡失衡II",
+    "Category": "贤者",
+    "ActionID": 37032,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "无法与均衡注药III(单体DOT)效果共存。",
     "Order": 1
   },
   {
