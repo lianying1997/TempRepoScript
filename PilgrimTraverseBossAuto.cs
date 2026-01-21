@@ -42,14 +42,13 @@ public class PilgrimTraverseBossAuto
     const string UpdateInfo =
         $"""
          {Version}
-         F50 不跑地火修复，F50 修改地火行走方案
-         F10 压花修复
+         F50 不准跑快快
          """;
 
     private const string Name = "MazeClear妖宫Boss辅助";
-    private const string Version = "0.0.0.5";
+    private const string Version = "0.0.0.6";
     private const string DebugVersion = "a";
-    private const bool Debugging = true;
+    private const bool Debugging = false;
     private bool _enable = true;
 
     private static BossStateParams _bsp = new();
@@ -77,14 +76,14 @@ public class PilgrimTraverseBossAuto
     }
 
     [ScriptMethod(name: "———————— 《测试项》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
-        userControl: true)]
+        userControl: Debugging)]
     public void 测试项分割线(Event ev, ScriptAccessory sa)
     {
     }
     
     
     [ScriptMethod(name: "bsp检测", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
-        userControl: true)]
+        userControl: Debugging)]
     public void bsp检测(Event ev, ScriptAccessory sa)
     {
         var hpPercentMan = (float)((IBattleChara)_bsp.F99_DarkManObj).CurrentHp / _bsp.F99_DarkManHpMax;
@@ -378,6 +377,7 @@ public class PilgrimTraverseBossAuto
         if (!_enable) return;
         SwitchAiMode(sa, false);
         sa.DebugMsg($"进沙坑读条，关闭BMR", Debugging);
+        SetSpeed(sa, 1);
         var myPos = sa.Data.MyObject.Position;
 
         var minDistance = 40f;
@@ -405,7 +405,7 @@ public class PilgrimTraverseBossAuto
     }
 
     [ScriptMethod(name: "测试项-TargetSpot", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:43534"],
-        userControl: true)]
+        userControl: Debugging)]
     public void 测试项TargetSpot(Event ev, ScriptAccessory sa)
     {
         
@@ -846,6 +846,13 @@ public class PilgrimTraverseBossAuto
     
     #region 脚本专用函数
     
+    private void SetSpeed(ScriptAccessory sa, float speed)
+    {
+        sa.Method.SendChat($"/pdrspeed {speed}");
+        sa.Method.SendChat($"/i-ching-commander speed {speed - 1f}");
+        if (speed == 1f)
+            sa.Method.SendChat($"/i-ching-commander speed dispose");
+    }
     private void SwitchAiMode(ScriptAccessory sa, bool enable) => sa.Method.SendChat($"/bmrai {(enable ? "on" : "off")}");
     private void SwitchAntiKnockback(ScriptAccessory sa, bool enable) => sa.Method.SendChat($"/i-ching-commander anti_knock {(enable ? "0 0" : "dispose")}");
     private void MoveTo(ScriptAccessory sa, Vector3 point) => sa.Method.SendChat($"/vnav moveto {point.X} {point.Y} {point.Z}");
