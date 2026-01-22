@@ -312,6 +312,30 @@
     "Order": 1
   },
   {
+    "ID": 129,
+    "SkillName": "吸血深渊",
+    "Category": "暗黑骑士",
+    "ActionID": 3641,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "与“精雕怒斩”冲突。",
+    "Order": 2
+  },
+  {
+    "ID": 130,
+    "SkillName": "吸血深渊",
+    "Category": "暗黑骑士",
+    "ActionID": 3641,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于3时，威力大于“精雕怒斩”。",
+    "Order": 3
+  },
+  {
     "ID": 114,
     "SkillName": "精雕怒斩",
     "Category": "暗黑骑士",
@@ -334,6 +358,18 @@
     "ColorType": "healing",
     "Description": "魔法值回复",
     "Order": 1
+  },
+  {
+    "ID": 131,
+    "SkillName": "精雕怒斩",
+    "Category": "暗黑骑士",
+    "ActionID": 3643,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "与“吸血深渊”冲突。",
+    "Order": 2
   },
   {
     "ID": 102,
@@ -477,6 +513,18 @@
     "Value": "0",
     "ColorType": "hint",
     "Description": "目标数大于等于3时，威力大于“血溅”。",
+    "Order": 0
+  },
+  {
+    "ID": 132,
+    "SkillName": "至黑之夜",
+    "Category": "暗黑骑士",
+    "ActionID": 7393,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "目标HP上限的 25%",
+    "ColorType": "shield",
+    "Description": "盾值",
     "Order": 0
   },
   {
