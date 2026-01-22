@@ -258,7 +258,7 @@
     "ActionID": 7382,
     "Level": 100,
     "TemplateType": "text",
-    "Value": "10",
+    "Value": "10%",
     "ColorType": "shield",
     "Description": "减伤",
     "Order": 0
@@ -906,7 +906,7 @@
     "ActionID": 25746,
     "Level": 100,
     "TemplateType": "text",
-    "Value": "15",
+    "Value": "15%",
     "ColorType": "shield",
     "Description": "减伤",
     "Order": 0
