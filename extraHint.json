@@ -571,7 +571,7 @@
     "Level": 100,
     "TemplateType": "damage_crit_calc",
     "Value": "1740",
-    "ColorType": "damage_glow",
+    "ColorType": "damage",
     "Description": "裂石飞环三连暴击伤害值",
     "Order": 0
   },
@@ -595,7 +595,7 @@
     "Level": 100,
     "TemplateType": "damage_crit_calc",
     "Value": "1480",
-    "ColorType": "damage_glow",
+    "ColorType": "damage",
     "Description": "蛮荒崩裂二连暴击伤害值",
     "Order": 2
   },
@@ -655,7 +655,7 @@
     "Level": 100,
     "TemplateType": "damage_crit_calc",
     "Value": "2160",
-    "ColorType": "damage_glow",
+    "ColorType": "damage",
     "Description": "血红乱三连暴击合计伤害值",
     "Order": 2
   },
@@ -955,7 +955,7 @@
     "Level": 100,
     "TemplateType": "damage_crit_calc",
     "Value": "2700",
-    "ColorType": "damage_glow",
+    "ColorType": "damage",
     "Description": "狮心连三连合计暴击伤害值",
     "Order": 1
   },
@@ -1975,7 +1975,7 @@
     "Level": 100,
     "TemplateType": "damage_crit_calc",
     "Value": "4640",
-    "ColorType": "damage_glow",
+    "ColorType": "damage",
     "Description": "悔罪五连合计暴击伤害值",
     "Order": 1
   },
