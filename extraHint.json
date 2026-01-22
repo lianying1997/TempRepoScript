@@ -1212,31 +1212,7 @@
     "Order": 0
   },
   {
-    "ID": 81,
-    "SkillName": "天宫图",
-    "Category": "占星术士",
-    "ActionID": 16557,
-    "Level": 100,
-    "TemplateType": "heal_norm_calc",
-    "Value": "400",
-    "ColorType": "healing",
-    "Description": "阳星天宫图治疗量",
-    "Order": 0
-  },
-  {
     "ID": 29,
-    "SkillName": "天宫图",
-    "Category": "占星术士",
-    "ActionID": 16557,
-    "Level": 100,
-    "TemplateType": "text",
-    "Value": "30 秒",
-    "ColorType": "duration",
-    "Description": "阳星天宫图持续时间",
-    "Order": 1
-  },
-  {
-    "ID": 82,
     "SkillName": "天宫图",
     "Category": "占星术士",
     "ActionID": 16557,
@@ -1260,18 +1236,6 @@
     "Order": 2
   },
   {
-    "ID": 83,
-    "SkillName": "天宫图",
-    "Category": "占星术士",
-    "ActionID": 16557,
-    "Level": 100,
-    "TemplateType": "text",
-    "Value": "0",
-    "ColorType": "hint",
-    "Description": "释放阳星相位/阳星合相后变为阳星天宫图。",
-    "Order": 2
-  },
-  {
     "ID": 31,
     "SkillName": "天宫图",
     "Category": "占星术士",
@@ -1284,10 +1248,46 @@
     "Order": 3
   },
   {
+    "ID": 81,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16558,
+    "Level": 100,
+    "TemplateType": "heal_norm_calc",
+    "Value": "400",
+    "ColorType": "healing",
+    "Description": "阳星天宫图治疗量",
+    "Order": 0
+  },
+  {
+    "ID": 82,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16558,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "30 秒",
+    "ColorType": "duration",
+    "Description": "阳星天宫图持续时间",
+    "Order": 1
+  },
+  {
+    "ID": 83,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16558,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "释放阳星相位/阳星合相后变为阳星天宫图。",
+    "Order": 2
+  },
+  {
     "ID": 84,
     "SkillName": "天宫图",
     "Category": "占星术士",
-    "ActionID": 16557,
+    "ActionID": 16558,
     "Level": 100,
     "TemplateType": "text",
     "Value": "0",

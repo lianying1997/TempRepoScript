@@ -362,7 +362,7 @@
     "ContVal": "100",
     "Times": 5,
     "MinorVal": "0",
-    "MitPercent": "10",
+    "MitPercent": "0",
     "MitType": "0",
     "BuffPercent": "0",
     "Duration": "15"
