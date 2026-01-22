@@ -294,7 +294,7 @@
     "ActionID": 7382,
     "Level": 100,
     "TemplateType": "text",
-    "Value": "12",
+    "Value": "12 秒",
     "ColorType": "duration",
     "Description": "治疗持续时间",
     "Order": 3
