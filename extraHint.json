@@ -55,7 +55,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "300",
-    "ColorType": "healing",
+    "ColorType": "healing_glow",
     "Description": "暴击治疗量",
     "Order": 0
   },
@@ -67,7 +67,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "540",
-    "ColorType": "shield",
+    "ColorType": "shield_glow",
     "Description": "暴击盾值(鼓舞/激励)",
     "Order": 1
   },
@@ -163,7 +163,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "400",
-    "ColorType": "healing",
+    "ColorType": "healing_glow",
     "Description": "暴击治疗量",
     "Order": 0
   },
@@ -276,6 +276,18 @@
     "Order": 0
   },
   {
+    "ID": 136,
+    "SkillName": "噬魂斩",
+    "Category": "暗黑骑士",
+    "ActionID": 3632,
+    "Level": 100,
+    "TemplateType": "heal_norm_calc",
+    "Value": "300",
+    "ColorType": "healing",
+    "Description": "治疗量",
+    "Order": 1
+  },
+  {
     "ID": 110,
     "SkillName": "弃明投暗",
     "Category": "暗黑骑士",
@@ -312,7 +324,7 @@
     "Order": 1
   },
   {
-    "ID": 129,
+    "ID": 132,
     "SkillName": "吸血深渊",
     "Category": "暗黑骑士",
     "ActionID": 3641,
@@ -324,7 +336,7 @@
     "Order": 2
   },
   {
-    "ID": 130,
+    "ID": 133,
     "SkillName": "吸血深渊",
     "Category": "暗黑骑士",
     "ActionID": 3641,
@@ -360,7 +372,7 @@
     "Order": 1
   },
   {
-    "ID": 131,
+    "ID": 134,
     "SkillName": "精雕怒斩",
     "Category": "暗黑骑士",
     "ActionID": 3643,
@@ -485,10 +497,10 @@
     "Category": "暗黑骑士",
     "ActionID": 7390,
     "Level": 100,
-    "TemplateType": "text",
-    "Value": "1800",
-    "ColorType": "healing",
-    "Description": "魔法值额外共回复",
+    "TemplateType": "damage_norm_calc",
+    "Value": "2160",
+    "ColorType": "damage",
+    "Description": "血红乱三连合计伤害值",
     "Order": 1
   },
   {
@@ -497,11 +509,35 @@
     "Category": "暗黑骑士",
     "ActionID": 7390,
     "Level": 100,
+    "TemplateType": "damage_crit_calc",
+    "Value": "2160",
+    "ColorType": "damage_glow",
+    "Description": "血红乱三连暴击合计伤害值",
+    "Order": 2
+  },
+  {
+    "ID": 120,
+    "SkillName": "血乱",
+    "Category": "暗黑骑士",
+    "ActionID": 7390,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "1800",
+    "ColorType": "healing",
+    "Description": "魔法值额外共回复",
+    "Order": 3
+  },
+  {
+    "ID": 121,
+    "SkillName": "血乱",
+    "Category": "暗黑骑士",
+    "ActionID": 7390,
+    "Level": 100,
     "TemplateType": "text",
     "Value": "2400",
     "ColorType": "healing",
     "Description": "应用于“血红乱/刺穿”三连魔法值共回复",
-    "Order": 2
+    "Order": 4
   },
   {
     "ID": 111,
@@ -516,7 +552,7 @@
     "Order": 0
   },
   {
-    "ID": 132,
+    "ID": 135,
     "SkillName": "至黑之夜",
     "Category": "暗黑骑士",
     "ActionID": 7393,
@@ -586,6 +622,186 @@
     "ColorType": "hint",
     "Description": "小地星10秒后变为巨星，巨星10秒后自动爆炸。",
     "Order": 3
+  },
+  {
+    "ID": 137,
+    "SkillName": "残暴弹",
+    "Category": "绝枪战士",
+    "ActionID": 16139,
+    "Level": 100,
+    "TemplateType": "heal_norm_calc",
+    "Value": "200",
+    "ColorType": "healing",
+    "Description": "治疗量",
+    "Order": 0
+  },
+  {
+    "ID": 138,
+    "SkillName": "残暴弹",
+    "Category": "绝枪战士",
+    "ActionID": 16139,
+    "Level": 100,
+    "TemplateType": "heal_norm_calc",
+    "Value": "200",
+    "ColorType": "shield",
+    "Description": "盾值",
+    "Order": 1
+  },
+  {
+    "ID": 148,
+    "SkillName": "伪装",
+    "Category": "绝枪战士",
+    "ActionID": 16140,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "“招架”发动率提高50%。",
+    "Order": 0
+  },
+  {
+    "ID": 149,
+    "SkillName": "伪装",
+    "Category": "绝枪战士",
+    "ActionID": 16140,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "15% 物理",
+    "ColorType": "shield",
+    "Description": "“招架”减伤",
+    "Order": 1
+  },
+  {
+    "ID": 150,
+    "SkillName": "伪装",
+    "Category": "绝枪战士",
+    "ActionID": 16140,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "所有职业均有概率触发“招架”。",
+    "Order": 2
+  },
+  {
+    "ID": 140,
+    "SkillName": "烈牙",
+    "Category": "绝枪战士",
+    "ActionID": 16146,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "660",
+    "ColorType": "damage",
+    "Description": "与续剑合计伤害值",
+    "Order": 0
+  },
+  {
+    "ID": 141,
+    "SkillName": "烈牙",
+    "Category": "绝枪战士",
+    "ActionID": 16146,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "2280",
+    "ColorType": "damage",
+    "Description": "子弹连三连合计伤害值",
+    "Order": 2
+  },
+  {
+    "ID": 142,
+    "SkillName": "猛兽爪",
+    "Category": "绝枪战士",
+    "ActionID": 16147,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "760",
+    "ColorType": "damage",
+    "Description": "与续剑合计伤害值",
+    "Order": 0
+  },
+  {
+    "ID": 143,
+    "SkillName": "凶禽爪",
+    "Category": "绝枪战士",
+    "ActionID": 16150,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "860",
+    "ColorType": "damage",
+    "Description": "与续剑合计伤害值",
+    "Order": 0
+  },
+  {
+    "ID": 151,
+    "SkillName": "光之心",
+    "Category": "绝枪战士",
+    "ActionID": 16160,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "5% 物理",
+    "ColorType": "shield",
+    "Description": "减伤",
+    "Order": 0
+  },
+  {
+    "ID": 139,
+    "SkillName": "爆发击",
+    "Category": "绝枪战士",
+    "ActionID": 16162,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "600",
+    "ColorType": "damage",
+    "Description": "与续剑合计伤害值",
+    "Order": 0
+  },
+  {
+    "ID": 144,
+    "SkillName": "命运之环",
+    "Category": "绝枪战士",
+    "ActionID": 16163,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "420",
+    "ColorType": "damage",
+    "Description": "与续剑合计伤害值",
+    "Order": 0
+  },
+  {
+    "ID": 145,
+    "SkillName": "命运之环",
+    "Category": "绝枪战士",
+    "ActionID": 16163,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "目标数大于等于2时，威力大于“爆发击”。",
+    "Order": 1
+  },
+  {
+    "ID": 146,
+    "SkillName": "血壤",
+    "Category": "绝枪战士",
+    "ActionID": 16164,
+    "Level": 100,
+    "TemplateType": "damage_norm_calc",
+    "Value": "2700",
+    "ColorType": "damage",
+    "Description": "狮心连三连合计伤害值",
+    "Order": 0
+  },
+  {
+    "ID": 147,
+    "SkillName": "血壤",
+    "Category": "绝枪战士",
+    "ActionID": 16164,
+    "Level": 100,
+    "TemplateType": "damage_crit_calc",
+    "Value": "2700",
+    "ColorType": "damage_glow",
+    "Description": "狮心连三连合计暴击伤害值",
+    "Order": 1
   },
   {
     "ID": 95,
@@ -672,7 +888,7 @@
     "Order": 1
   },
   {
-    "ID": 121,
+    "ID": 124,
     "SkillName": "暗影波动",
     "Category": "暗黑骑士",
     "ActionID": 16469,
@@ -696,7 +912,7 @@
     "Order": 0
   },
   {
-    "ID": 122,
+    "ID": 125,
     "SkillName": "掠影示现",
     "Category": "暗黑骑士",
     "ActionID": 16472,
@@ -708,7 +924,7 @@
     "Order": 0
   },
   {
-    "ID": 123,
+    "ID": 126,
     "SkillName": "掠影示现",
     "Category": "暗黑骑士",
     "ActionID": 16472,
@@ -931,7 +1147,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "300",
-    "ColorType": "healing",
+    "ColorType": "healing_glow",
     "Description": "暴击治疗量",
     "Order": 2
   },
@@ -943,7 +1159,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "540",
-    "ColorType": "shield",
+    "ColorType": "shield_glow",
     "Description": "暴击盾值(均衡/齐衡)",
     "Order": 3
   },
@@ -1176,6 +1392,66 @@
     "Order": 1
   },
   {
+    "ID": 152,
+    "SkillName": "刚玉之心",
+    "Category": "绝枪战士",
+    "ActionID": 25758,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "15%",
+    "ColorType": "shield",
+    "Description": "减伤",
+    "Order": 0
+  },
+  {
+    "ID": 153,
+    "SkillName": "刚玉之心",
+    "Category": "绝枪战士",
+    "ActionID": 25758,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "后 4 秒",
+    "ColorType": "duration",
+    "Description": "持续时间",
+    "Order": 1
+  },
+  {
+    "ID": 154,
+    "SkillName": "刚玉之心",
+    "Category": "绝枪战士",
+    "ActionID": 25758,
+    "Level": 100,
+    "TemplateType": "heal_norm_calc",
+    "Value": "900",
+    "ColorType": "healing",
+    "Description": "治疗量",
+    "Order": 2
+  },
+  {
+    "ID": 155,
+    "SkillName": "刚玉之心",
+    "Category": "绝枪战士",
+    "ActionID": 25758,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "当前HP低于50%或持续时间结束时触发治疗。",
+    "Order": 3
+  },
+  {
+    "ID": 156,
+    "SkillName": "刚玉之心",
+    "Category": "绝枪战士",
+    "ActionID": 25758,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "20 秒",
+    "ColorType": "duration",
+    "Description": "治疗最晚触发时间",
+    "Order": 4
+  },
+  {
     "ID": 69,
     "SkillName": "豪圣",
     "Category": "白魔法师",
@@ -1368,7 +1644,7 @@
     "Order": 1
   },
   {
-    "ID": 124,
+    "ID": 127,
     "SkillName": "暗影卫",
     "Category": "暗黑骑士",
     "ActionID": 36927,
@@ -1380,7 +1656,7 @@
     "Order": 0
   },
   {
-    "ID": 125,
+    "ID": 128,
     "SkillName": "暗影卫",
     "Category": "暗黑骑士",
     "ActionID": 36927,
@@ -1392,7 +1668,7 @@
     "Order": 1
   },
   {
-    "ID": 126,
+    "ID": 129,
     "SkillName": "血红乱",
     "Category": "暗黑骑士",
     "ActionID": 36928,
@@ -1404,7 +1680,7 @@
     "Order": 0
   },
   {
-    "ID": 127,
+    "ID": 130,
     "SkillName": "报应",
     "Category": "暗黑骑士",
     "ActionID": 36929,
@@ -1416,7 +1692,7 @@
     "Order": 0
   },
   {
-    "ID": 128,
+    "ID": 131,
     "SkillName": "戮山",
     "Category": "暗黑骑士",
     "ActionID": 36930,
@@ -1428,7 +1704,7 @@
     "Order": 0
   },
   {
-    "ID": 121,
+    "ID": 123,
     "SkillName": "刺穿",
     "Category": "暗黑骑士",
     "ActionID": 36931,
@@ -1440,7 +1716,7 @@
     "Order": 0
   },
   {
-    "ID": 120,
+    "ID": 122,
     "SkillName": "刺穿",
     "Category": "暗黑骑士",
     "ActionID": 36931,
@@ -1450,6 +1726,18 @@
     "ColorType": "hint",
     "Description": "目标数大于等于3时，威力大于“血红乱三连”。",
     "Order": 1
+  },
+  {
+    "ID": 157,
+    "SkillName": "大星云",
+    "Category": "绝枪战士",
+    "ActionID": 36935,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "HP上限提高 20%",
+    "Order": 0
   },
   {
     "ID": 9,
@@ -1471,7 +1759,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "200",
-    "ColorType": "healing",
+    "ColorType": "healing_glow",
     "Description": "暴击治疗量",
     "Order": 0
   },
@@ -1483,7 +1771,7 @@
     "Level": 100,
     "TemplateType": "heal_crit_calc",
     "Value": "360",
-    "ColorType": "shield",
+    "ColorType": "shield_glow",
     "Description": "暴击盾值(鼓舞)",
     "Order": 1
   },
