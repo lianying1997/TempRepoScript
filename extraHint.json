@@ -1,5 +1,41 @@
 [
   {
+    "ID": 85,
+    "SkillName": "盾牌猛击",
+    "Category": "骑士",
+    "ActionID": 16,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "6/3/1/0 秒",
+    "ColorType": "duration",
+    "Description": "眩晕时间",
+    "Order": 0
+  },
+  {
+    "ID": 86,
+    "SkillName": "壁垒",
+    "Category": "骑士",
+    "ActionID": 22,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "效果为“格挡”，整数等级时等价于20%减伤。",
+    "Order": 0
+  },
+  {
+    "ID": 87,
+    "SkillName": "壁垒",
+    "Category": "骑士",
+    "ActionID": 22,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "装备盾牌概率触发格挡，开启“壁垒”必定触发格挡。",
+    "Order": 1
+  },
+  {
     "ID": 76,
     "SkillName": "能量吸收",
     "Category": "学者",
@@ -20,7 +56,7 @@
     "TemplateType": "heal_crit_calc",
     "Value": "300",
     "ColorType": "healing",
-    "Description": "暴击恢复力",
+    "Description": "暴击治疗量",
     "Order": 0
   },
   {
@@ -60,6 +96,42 @@
     "Order": 0
   },
   {
+    "ID": 88,
+    "SkillName": "圣光幕帘",
+    "Category": "骑士",
+    "ActionID": 3540,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "骑士HP上限的 10%",
+    "ColorType": "shield",
+    "Description": "盾值",
+    "Order": 0
+  },
+  {
+    "ID": 89,
+    "SkillName": "深仁厚泽",
+    "Category": "骑士",
+    "ActionID": 3541,
+    "Level": "100",
+    "TemplateType": "heal_crit_calc",
+    "Value": "1000",
+    "ColorType": "healing",
+    "Description": "暴击治疗量",
+    "Order": 0
+  },
+  {
+    "ID": 90,
+    "SkillName": "深仁厚泽",
+    "Category": "骑士",
+    "ActionID": 3541,
+    "Level": "100",
+    "TemplateType": "heal_norm_calc",
+    "Value": "500",
+    "ColorType": "healing",
+    "Description": "以队友为目标时，对自身治疗量",
+    "Order": 1
+  },
+  {
     "ID": 5,
     "SkillName": "庇护所",
     "Category": "白魔法师",
@@ -80,7 +152,7 @@
     "TemplateType": "damage_norm_calc",
     "Value": "400",
     "ColorType": "damage",
-    "Description": "威力",
+    "Description": "伤害值",
     "Order": 0
   },
   {
@@ -92,7 +164,7 @@
     "TemplateType": "heal_crit_calc",
     "Value": "400",
     "ColorType": "healing",
-    "Description": "暴击恢复力",
+    "Description": "暴击治疗量",
     "Order": 0
   },
   {
@@ -176,8 +248,104 @@
     "TemplateType": "heal_norm_calc",
     "Value": "900",
     "ColorType": "healing",
-    "Description": "目标HP 30%以下时恢复力",
+    "Description": "目标HP 30%以下时治疗量",
     "Order": 0
+  },
+  {
+    "ID": 102,
+    "SkillName": "干预",
+    "Category": "骑士",
+    "ActionID": 7382,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "10",
+    "ColorType": "shield",
+    "Description": "减伤",
+    "Order": 0
+  },
+  {
+    "ID": 103,
+    "SkillName": "干预",
+    "Category": "骑士",
+    "ActionID": 7382,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "后 4 秒",
+    "ColorType": "duration",
+    "Description": "持续时间",
+    "Order": 1
+  },
+  {
+    "ID": 104,
+    "SkillName": "干预",
+    "Category": "骑士",
+    "ActionID": 7382,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "自身处于“铁壁”或“极致防御/预警”状态时，上述减伤效果增加10%。",
+    "Order": 2
+  },
+  {
+    "ID": 105,
+    "SkillName": "干预",
+    "Category": "骑士",
+    "ActionID": 7382,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "12",
+    "ColorType": "duration",
+    "Description": "治疗持续时间",
+    "Order": 3
+  },
+  {
+    "ID": 91,
+    "SkillName": "圣灵",
+    "Category": "骑士",
+    "ActionID": 7384,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "上述为适用“神圣魔法效果提高”伤害值。",
+    "Order": 0
+  },
+  {
+    "ID": 92,
+    "SkillName": "圣灵",
+    "Category": "骑士",
+    "ActionID": 7384,
+    "Level": "100",
+    "TemplateType": "damage_norm_calc",
+    "Value": "400",
+    "ColorType": "damage",
+    "Description": "无“神圣魔法效果提高”伤害值",
+    "Order": 1
+  },
+  {
+    "ID": 93,
+    "SkillName": "圣灵",
+    "Category": "骑士",
+    "ActionID": 7384,
+    "Level": "100",
+    "TemplateType": "damage_norm_calc",
+    "Value": "700",
+    "ColorType": "damage",
+    "Description": "“安魂祈祷”状态中伤害值",
+    "Order": 2
+  },
+  {
+    "ID": 94,
+    "SkillName": "圣灵",
+    "Category": "骑士",
+    "ActionID": 7384,
+    "Level": "100",
+    "TemplateType": "heal_norm_calc",
+    "Value": "400",
+    "ColorType": "healing",
+    "Description": "治疗量",
+    "Order": 3
   },
   {
     "ID": 6,
@@ -200,7 +368,7 @@
     "TemplateType": "damage_norm_calc",
     "Value": "310",
     "ColorType": "damage",
-    "Description": "巨星主宰威力",
+    "Description": "巨星主宰伤害值",
     "Order": 0
   },
   {
@@ -212,7 +380,7 @@
     "TemplateType": "heal_norm_calc",
     "Value": "540",
     "ColorType": "healing",
-    "Description": "小地星恢复力",
+    "Description": "小地星治疗量",
     "Order": 1
   },
   {
@@ -224,7 +392,7 @@
     "TemplateType": "damage_norm_calc",
     "Value": "205",
     "ColorType": "damage",
-    "Description": "小地星威力",
+    "Description": "小地星伤害值",
     "Order": 2
   },
   {
@@ -237,6 +405,66 @@
     "Value": "0",
     "ColorType": "hint",
     "Description": "小地星10秒后变为巨星，巨星10秒后自动爆炸。",
+    "Order": 3
+  },
+  {
+    "ID": 95,
+    "SkillName": "圣环",
+    "Category": "骑士",
+    "ActionID": 16458,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "上述为适用“神圣魔法效果提高”伤害值。",
+    "Order": 0
+  },
+  {
+    "ID": 99,
+    "SkillName": "圣环",
+    "Category": "骑士",
+    "ActionID": 16458,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "“神圣魔法效果提高”状态下，目标数大于等于3时，威力大于“圣灵”。",
+    "Order": 0
+  },
+  {
+    "ID": 96,
+    "SkillName": "圣环",
+    "Category": "骑士",
+    "ActionID": 16458,
+    "Level": "100",
+    "TemplateType": "damage_norm_calc",
+    "Value": "100",
+    "ColorType": "damage",
+    "Description": "无“神圣魔法效果提高”伤害值",
+    "Order": 1
+  },
+  {
+    "ID": 97,
+    "SkillName": "圣环",
+    "Category": "骑士",
+    "ActionID": 16458,
+    "Level": "100",
+    "TemplateType": "damage_norm_calc",
+    "Value": "350",
+    "ColorType": "damage",
+    "Description": "“安魂祈祷”状态中伤害值",
+    "Order": 2
+  },
+  {
+    "ID": 98,
+    "SkillName": "圣环",
+    "Category": "骑士",
+    "ActionID": 16458,
+    "Level": "100",
+    "TemplateType": "heal_norm_calc",
+    "Value": "400",
+    "ColorType": "healing",
+    "Description": "治疗量",
     "Order": 3
   },
   {
@@ -272,11 +500,35 @@
     "TemplateType": "heal_norm_calc",
     "Value": "400",
     "ColorType": "healing",
-    "Description": "阳星天宫图恢复力",
+    "Description": "阳星天宫图治疗量",
+    "Order": 0
+  },
+  {
+    "ID": 81,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16557,
+    "Level": "100",
+    "TemplateType": "heal_norm_calc",
+    "Value": "400",
+    "ColorType": "healing",
+    "Description": "阳星天宫图治疗量",
     "Order": 0
   },
   {
     "ID": 29,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16557,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "30 秒",
+    "ColorType": "duration",
+    "Description": "阳星天宫图持续时间",
+    "Order": 1
+  },
+  {
+    "ID": 82,
     "SkillName": "天宫图",
     "Category": "占星术士",
     "ActionID": 16557,
@@ -300,7 +552,31 @@
     "Order": 2
   },
   {
+    "ID": 83,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16557,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "释放阳星相位/阳星合相后变为阳星天宫图。",
+    "Order": 2
+  },
+  {
     "ID": 31,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16557,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "0",
+    "ColorType": "hint",
+    "Description": "持续时间结束自动触发恢复效果。",
+    "Order": 3
+  },
+  {
+    "ID": 84,
     "SkillName": "天宫图",
     "Category": "占星术士",
     "ActionID": 16557,
@@ -368,7 +644,7 @@
     "TemplateType": "heal_norm_calc",
     "Value": "289",
     "ColorType": "healing",
-    "Description": "拯救状态下持续恢复力",
+    "Description": "拯救状态下持续治疗量",
     "Order": 0
   },
   {
@@ -380,7 +656,7 @@
     "TemplateType": "heal_norm_calc",
     "Value": "450",
     "ColorType": "healing",
-    "Description": "活化状态下恢复力",
+    "Description": "活化状态下治疗量",
     "Order": 0
   },
   {
@@ -404,7 +680,7 @@
     "TemplateType": "heal_crit_calc",
     "Value": "300",
     "ColorType": "healing",
-    "Description": "暴击恢复力",
+    "Description": "暴击治疗量",
     "Order": 2
   },
   {
@@ -464,7 +740,7 @@
     "TemplateType": "text",
     "Value": "0",
     "ColorType": "hint",
-    "Description": "上述为移除“均衡预后”(群盾)恢复力。",
+    "Description": "上述为移除“均衡预后”(群盾)治疗量。",
     "Order": 0
   },
   {
@@ -476,7 +752,7 @@
     "TemplateType": "heal_norm_calc",
     "Value": "450",
     "ColorType": "healing",
-    "Description": "移除“均衡诊断”(单盾)恢复力",
+    "Description": "移除“均衡诊断”(单盾)治疗量",
     "Order": 1
   },
   {
@@ -596,7 +872,7 @@
     "TemplateType": "heal_norm_calc",
     "Value": "900",
     "ColorType": "healing",
-    "Description": "活化状态下恢复力",
+    "Description": "活化状态下治疗量",
     "Order": 0
   },
   {
@@ -608,7 +884,7 @@
     "TemplateType": "damage_norm_calc",
     "Value": "380",
     "ColorType": "damage",
-    "Description": "威力",
+    "Description": "伤害值",
     "Order": 1
   },
   {
@@ -620,8 +896,32 @@
     "TemplateType": "text",
     "Value": "40%",
     "ColorType": "damage",
-    "Description": "额外目标衰减",
+    "Description": "多目标伤害衰减",
     "Order": 2
+  },
+  {
+    "ID": 100,
+    "SkillName": "圣盾阵",
+    "Category": "骑士",
+    "ActionID": 25746,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "15",
+    "ColorType": "shield",
+    "Description": "减伤",
+    "Order": 0
+  },
+  {
+    "ID": 101,
+    "SkillName": "圣盾阵",
+    "Category": "骑士",
+    "ActionID": 25746,
+    "Level": "100",
+    "TemplateType": "text",
+    "Value": "后 4 秒",
+    "ColorType": "duration",
+    "Description": "持续时间",
+    "Order": 1
   },
   {
     "ID": 69,
@@ -728,7 +1028,7 @@
     "TemplateType": "damage_norm_calc",
     "Value": "270",
     "ColorType": "damage",
-    "Description": "威力",
+    "Description": "伤害值",
     "Order": 0
   },
   {
@@ -740,7 +1040,7 @@
     "TemplateType": "text",
     "Value": "40%",
     "ColorType": "damage",
-    "Description": "额外目标衰减",
+    "Description": "多目标伤害衰减",
     "Order": 1
   },
   {
@@ -752,7 +1052,7 @@
     "TemplateType": "text",
     "Value": "积蓄所受伤害的 50%",
     "ColorType": "healing",
-    "Description": "额外恢复力",
+    "Description": "额外治疗量",
     "Order": 2
   },
   {
@@ -776,7 +1076,7 @@
     "TemplateType": "text",
     "Value": "积蓄所受伤害的 50%",
     "ColorType": "healing",
-    "Description": "额外恢复力",
+    "Description": "额外治疗量",
     "Order": 0
   },
   {
@@ -836,7 +1136,7 @@
     "TemplateType": "heal_crit_calc",
     "Value": "200",
     "ColorType": "healing",
-    "Description": "暴击恢复力",
+    "Description": "暴击治疗量",
     "Order": 0
   },
   {
@@ -932,7 +1232,7 @@
     "TemplateType": "heal_norm_calc",
     "Value": "100",
     "ColorType": "healing",
-    "Description": "活化状态下恢复力",
+    "Description": "活化状态下治疗量",
     "Order": 0
   },
   {

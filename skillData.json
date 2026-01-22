@@ -1851,7 +1851,7 @@
     "Times": 0,
     "MinorVal": 0,
     "MitPercent": 20,
-    "MitType": 2,
+    "MitType": 0,
     "BuffPercent": 0,
     "Duration": 10
   },
@@ -1930,7 +1930,7 @@
     "ContVal": 250,
     "Times": 4,
     "MinorVal": 0,
-    "MitPercent": 28,
+    "MitPercent": 0,
     "MitType": 0,
     "BuffPercent": 0,
     "Duration": 4
@@ -1973,7 +1973,7 @@
     "Category": "骑士",
     "ActionID": 36921,
     "Level": 100,
-    "IsDamageSkill": false,
+    "IsDamageSkill": true,
     "MainVal": 580,
     "ContVal": 0,
     "Times": 0,
@@ -1982,5 +1982,21 @@
     "MitType": 0,
     "BuffPercent": 60,
     "Duration": 0
+  },
+  {
+    "ID": 125,
+    "SkillName": "天宫图",
+    "Category": "占星术士",
+    "ActionID": 16558,
+    "Level": 100,
+    "IsDamageSkill": false,
+    "MainVal": 200,
+    "ContVal": 0,
+    "Times": 0,
+    "MinorVal": 0,
+    "MitPercent": 0,
+    "MitType": 0,
+    "BuffPercent": 0,
+    "Duration": 10
   }
 ]
