@@ -36,7 +36,7 @@
     "Order": 1
   },
   {
-    "ID": 160,
+    "ID": 163,
     "SkillName": "暴风斩",
     "Category": "战士",
     "ActionID": 42,
@@ -144,7 +144,7 @@
     "Order": 1
   },
   {
-    "ID": 161,
+    "ID": 164,
     "SkillName": "地毁人亡",
     "Category": "战士",
     "ActionID": 3550,
@@ -156,7 +156,7 @@
     "Order": 0
   },
   {
-    "ID": 163,
+    "ID": 166,
     "SkillName": "泰然自若",
     "Category": "战士",
     "ActionID": 3552,
@@ -312,7 +312,7 @@
     "Order": 0
   },
   {
-    "ID": 136,
+    "ID": 137,
     "SkillName": "噬魂斩",
     "Category": "暗黑骑士",
     "ActionID": 3632,
@@ -360,7 +360,7 @@
     "Order": 1
   },
   {
-    "ID": 132,
+    "ID": 133,
     "SkillName": "吸血深渊",
     "Category": "暗黑骑士",
     "ActionID": 3641,
@@ -372,7 +372,7 @@
     "Order": 2
   },
   {
-    "ID": 133,
+    "ID": 134,
     "SkillName": "吸血深渊",
     "Category": "暗黑骑士",
     "ActionID": 3641,
@@ -408,7 +408,7 @@
     "Order": 1
   },
   {
-    "ID": 134,
+    "ID": 135,
     "SkillName": "精雕怒斩",
     "Category": "暗黑骑士",
     "ActionID": 3643,
@@ -516,7 +516,7 @@
     "Order": 3
   },
   {
-    "ID": 164,
+    "ID": 167,
     "SkillName": "摆脱",
     "Category": "战士",
     "ActionID": 7388,
@@ -528,7 +528,7 @@
     "Order": 0
   },
   {
-    "ID": 165,
+    "ID": 168,
     "SkillName": "摆脱",
     "Category": "战士",
     "ActionID": 7388,
@@ -540,7 +540,7 @@
     "Order": 1
   },
   {
-    "ID": 166,
+    "ID": 169,
     "SkillName": "摆脱",
     "Category": "战士",
     "ActionID": 7388,
@@ -552,7 +552,7 @@
     "Order": 2
   },
   {
-    "ID": 167,
+    "ID": 170,
     "SkillName": "摆脱",
     "Category": "战士",
     "ActionID": 7388,
@@ -564,7 +564,7 @@
     "Order": 3
   },
   {
-    "ID": 179,
+    "ID": 182,
     "SkillName": "原初的解放",
     "Category": "战士",
     "ActionID": 7389,
@@ -576,7 +576,19 @@
     "Order": 0
   },
   {
-    "ID": 180,
+    "ID": 183,
+    "SkillName": "原初的解放",
+    "Category": "战士",
+    "ActionID": 7389,
+    "Level": 100,
+    "TemplateType": "damage_direct_crit_calc",
+    "Value": "1740",
+    "ColorType": "damage_glow",
+    "Description": "裂石飞环三连直暴伤害值",
+    "Order": 1
+  },
+  {
+    "ID": 184,
     "SkillName": "原初的解放",
     "Category": "战士",
     "ActionID": 7389,
@@ -585,10 +597,10 @@
     "Value": "1480",
     "ColorType": "damage_glow",
     "Description": "蛮荒崩裂二连暴击伤害值",
-    "Order": 1
+    "Order": 2
   },
   {
-    "ID": 181,
+    "ID": 186,
     "SkillName": "原初的解放",
     "Category": "战士",
     "ActionID": 7389,
@@ -598,6 +610,18 @@
     "ColorType": "hint",
     "Description": "除特定攻击外，无法被控制与移位。",
     "Order": 2
+  },
+  {
+    "ID": 185,
+    "SkillName": "原初的解放",
+    "Category": "战士",
+    "ActionID": 7389,
+    "Level": 100,
+    "TemplateType": "damage_direct_crit_calc",
+    "Value": "1480",
+    "ColorType": "damage_glow",
+    "Description": "蛮荒崩裂二连直暴伤害值",
+    "Order": 3
   },
   {
     "ID": 117,
@@ -641,10 +665,10 @@
     "Category": "暗黑骑士",
     "ActionID": 7390,
     "Level": 100,
-    "TemplateType": "text",
-    "Value": "1800",
-    "ColorType": "healing",
-    "Description": "魔法值额外共回复",
+    "TemplateType": "damage_direct_crit_calc",
+    "Value": "2160",
+    "ColorType": "damage_glow",
+    "Description": "血红乱三连直暴合计伤害值",
     "Order": 3
   },
   {
@@ -654,10 +678,22 @@
     "ActionID": 7390,
     "Level": 100,
     "TemplateType": "text",
+    "Value": "1800",
+    "ColorType": "healing",
+    "Description": "魔法值额外共回复",
+    "Order": 4
+  },
+  {
+    "ID": 122,
+    "SkillName": "血乱",
+    "Category": "暗黑骑士",
+    "ActionID": 7390,
+    "Level": 100,
+    "TemplateType": "text",
     "Value": "2400",
     "ColorType": "healing",
     "Description": "应用于“血红乱/刺穿”三连魔法值共回复",
-    "Order": 4
+    "Order": 5
   },
   {
     "ID": 111,
@@ -672,7 +708,7 @@
     "Order": 0
   },
   {
-    "ID": 135,
+    "ID": 136,
     "SkillName": "至黑之夜",
     "Category": "暗黑骑士",
     "ActionID": 7393,
@@ -744,7 +780,7 @@
     "Order": 3
   },
   {
-    "ID": 137,
+    "ID": 138,
     "SkillName": "残暴弹",
     "Category": "绝枪战士",
     "ActionID": 16139,
@@ -756,7 +792,7 @@
     "Order": 0
   },
   {
-    "ID": 138,
+    "ID": 139,
     "SkillName": "残暴弹",
     "Category": "绝枪战士",
     "ActionID": 16139,
@@ -768,7 +804,7 @@
     "Order": 1
   },
   {
-    "ID": 148,
+    "ID": 150,
     "SkillName": "伪装",
     "Category": "绝枪战士",
     "ActionID": 16140,
@@ -780,7 +816,7 @@
     "Order": 0
   },
   {
-    "ID": 149,
+    "ID": 151,
     "SkillName": "伪装",
     "Category": "绝枪战士",
     "ActionID": 16140,
@@ -792,7 +828,7 @@
     "Order": 1
   },
   {
-    "ID": 150,
+    "ID": 152,
     "SkillName": "伪装",
     "Category": "绝枪战士",
     "ActionID": 16140,
@@ -804,7 +840,7 @@
     "Order": 2
   },
   {
-    "ID": 140,
+    "ID": 141,
     "SkillName": "烈牙",
     "Category": "绝枪战士",
     "ActionID": 16146,
@@ -816,7 +852,7 @@
     "Order": 0
   },
   {
-    "ID": 141,
+    "ID": 142,
     "SkillName": "烈牙",
     "Category": "绝枪战士",
     "ActionID": 16146,
@@ -828,7 +864,7 @@
     "Order": 2
   },
   {
-    "ID": 142,
+    "ID": 143,
     "SkillName": "猛兽爪",
     "Category": "绝枪战士",
     "ActionID": 16147,
@@ -840,7 +876,7 @@
     "Order": 0
   },
   {
-    "ID": 143,
+    "ID": 144,
     "SkillName": "凶禽爪",
     "Category": "绝枪战士",
     "ActionID": 16150,
@@ -852,7 +888,7 @@
     "Order": 0
   },
   {
-    "ID": 151,
+    "ID": 153,
     "SkillName": "光之心",
     "Category": "绝枪战士",
     "ActionID": 16160,
@@ -864,7 +900,7 @@
     "Order": 0
   },
   {
-    "ID": 139,
+    "ID": 140,
     "SkillName": "爆发击",
     "Category": "绝枪战士",
     "ActionID": 16162,
@@ -876,7 +912,7 @@
     "Order": 0
   },
   {
-    "ID": 144,
+    "ID": 145,
     "SkillName": "命运之环",
     "Category": "绝枪战士",
     "ActionID": 16163,
@@ -888,7 +924,7 @@
     "Order": 0
   },
   {
-    "ID": 145,
+    "ID": 146,
     "SkillName": "命运之环",
     "Category": "绝枪战士",
     "ActionID": 16163,
@@ -900,7 +936,7 @@
     "Order": 1
   },
   {
-    "ID": 146,
+    "ID": 147,
     "SkillName": "血壤",
     "Category": "绝枪战士",
     "ActionID": 16164,
@@ -912,7 +948,7 @@
     "Order": 0
   },
   {
-    "ID": 147,
+    "ID": 148,
     "SkillName": "血壤",
     "Category": "绝枪战士",
     "ActionID": 16164,
@@ -922,6 +958,18 @@
     "ColorType": "damage_glow",
     "Description": "狮心连三连合计暴击伤害值",
     "Order": 1
+  },
+  {
+    "ID": 149,
+    "SkillName": "血壤",
+    "Category": "绝枪战士",
+    "ActionID": 16164,
+    "Level": 100,
+    "TemplateType": "damage_direct_crit_calc",
+    "Value": "2700",
+    "ColorType": "damage_glow",
+    "Description": "狮心连三连合计直暴伤害值",
+    "Order": 2
   },
   {
     "ID": 95,
@@ -984,7 +1032,7 @@
     "Order": 3
   },
   {
-    "ID": 162,
+    "ID": 165,
     "SkillName": "混沌旋风",
     "Category": "战士",
     "ActionID": 16463,
@@ -996,7 +1044,7 @@
     "Order": 0
   },
   {
-    "ID": 174,
+    "ID": 177,
     "SkillName": "原初的勇猛",
     "Category": "战士",
     "ActionID": 16464,
@@ -1008,7 +1056,7 @@
     "Order": 0
   },
   {
-    "ID": 175,
+    "ID": 178,
     "SkillName": "原初的勇猛",
     "Category": "战士",
     "ActionID": 16464,
@@ -1020,7 +1068,7 @@
     "Order": 1
   },
   {
-    "ID": 176,
+    "ID": 179,
     "SkillName": "原初的勇猛",
     "Category": "战士",
     "ActionID": 16464,
@@ -1032,7 +1080,7 @@
     "Order": 2
   },
   {
-    "ID": 177,
+    "ID": 180,
     "SkillName": "原初的勇猛",
     "Category": "战士",
     "ActionID": 16464,
@@ -1044,7 +1092,7 @@
     "Order": 3
   },
   {
-    "ID": 178,
+    "ID": 181,
     "SkillName": "原初的勇猛",
     "Category": "战士",
     "ActionID": 16464,
@@ -1080,7 +1128,7 @@
     "Order": 1
   },
   {
-    "ID": 124,
+    "ID": 125,
     "SkillName": "暗影波动",
     "Category": "暗黑骑士",
     "ActionID": 16469,
@@ -1104,7 +1152,7 @@
     "Order": 0
   },
   {
-    "ID": 125,
+    "ID": 126,
     "SkillName": "掠影示现",
     "Category": "暗黑骑士",
     "ActionID": 16472,
@@ -1116,7 +1164,7 @@
     "Order": 0
   },
   {
-    "ID": 126,
+    "ID": 127,
     "SkillName": "掠影示现",
     "Category": "暗黑骑士",
     "ActionID": 16472,
@@ -1584,7 +1632,7 @@
     "Order": 1
   },
   {
-    "ID": 169,
+    "ID": 172,
     "SkillName": "原初的血气",
     "Category": "战士",
     "ActionID": 25751,
@@ -1596,7 +1644,7 @@
     "Order": 0
   },
   {
-    "ID": 170,
+    "ID": 173,
     "SkillName": "原初的血气",
     "Category": "战士",
     "ActionID": 25751,
@@ -1608,7 +1656,7 @@
     "Order": 1
   },
   {
-    "ID": 171,
+    "ID": 174,
     "SkillName": "原初的血气",
     "Category": "战士",
     "ActionID": 25751,
@@ -1620,7 +1668,7 @@
     "Order": 2
   },
   {
-    "ID": 172,
+    "ID": 175,
     "SkillName": "原初的血气",
     "Category": "战士",
     "ActionID": 25751,
@@ -1632,7 +1680,7 @@
     "Order": 3
   },
   {
-    "ID": 173,
+    "ID": 176,
     "SkillName": "原初的血气",
     "Category": "战士",
     "ActionID": 25751,
@@ -1644,7 +1692,7 @@
     "Order": 4
   },
   {
-    "ID": 168,
+    "ID": 171,
     "SkillName": "群山隆起",
     "Category": "战士",
     "ActionID": 25752,
@@ -1656,7 +1704,7 @@
     "Order": 0
   },
   {
-    "ID": 152,
+    "ID": 154,
     "SkillName": "刚玉之心",
     "Category": "绝枪战士",
     "ActionID": 25758,
@@ -1668,7 +1716,7 @@
     "Order": 0
   },
   {
-    "ID": 153,
+    "ID": 155,
     "SkillName": "刚玉之心",
     "Category": "绝枪战士",
     "ActionID": 25758,
@@ -1680,7 +1728,7 @@
     "Order": 1
   },
   {
-    "ID": 154,
+    "ID": 156,
     "SkillName": "刚玉之心",
     "Category": "绝枪战士",
     "ActionID": 25758,
@@ -1692,7 +1740,7 @@
     "Order": 2
   },
   {
-    "ID": 155,
+    "ID": 157,
     "SkillName": "刚玉之心",
     "Category": "绝枪战士",
     "ActionID": 25758,
@@ -1704,7 +1752,7 @@
     "Order": 3
   },
   {
-    "ID": 156,
+    "ID": 158,
     "SkillName": "刚玉之心",
     "Category": "绝枪战士",
     "ActionID": 25758,
@@ -1908,7 +1956,7 @@
     "Order": 1
   },
   {
-    "ID": 158,
+    "ID": 160,
     "SkillName": "绝对统治",
     "Category": "骑士",
     "ActionID": 36921,
@@ -1920,7 +1968,7 @@
     "Order": 0
   },
   {
-    "ID": 159,
+    "ID": 161,
     "SkillName": "绝对统治",
     "Category": "骑士",
     "ActionID": 36921,
@@ -1932,7 +1980,19 @@
     "Order": 1
   },
   {
-    "ID": 182,
+    "ID": 162,
+    "SkillName": "绝对统治",
+    "Category": "骑士",
+    "ActionID": 36921,
+    "Level": 100,
+    "TemplateType": "damage_direct_crit_calc",
+    "Value": "4640",
+    "ColorType": "damage_glow",
+    "Description": "悔罪五连合计直暴伤害值",
+    "Order": 2
+  },
+  {
+    "ID": 187,
     "SkillName": "戮罪",
     "Category": "战士",
     "ActionID": 36923,
@@ -1944,7 +2004,7 @@
     "Order": 0
   },
   {
-    "ID": 183,
+    "ID": 188,
     "SkillName": "戮罪",
     "Category": "战士",
     "ActionID": 36923,
@@ -1956,7 +2016,7 @@
     "Order": 1
   },
   {
-    "ID": 184,
+    "ID": 189,
     "SkillName": "戮罪",
     "Category": "战士",
     "ActionID": 36923,
@@ -1968,7 +2028,7 @@
     "Order": 2
   },
   {
-    "ID": 127,
+    "ID": 128,
     "SkillName": "暗影卫",
     "Category": "暗黑骑士",
     "ActionID": 36927,
@@ -1980,7 +2040,7 @@
     "Order": 0
   },
   {
-    "ID": 128,
+    "ID": 129,
     "SkillName": "暗影卫",
     "Category": "暗黑骑士",
     "ActionID": 36927,
@@ -1992,7 +2052,7 @@
     "Order": 1
   },
   {
-    "ID": 129,
+    "ID": 130,
     "SkillName": "血红乱",
     "Category": "暗黑骑士",
     "ActionID": 36928,
@@ -2004,7 +2064,7 @@
     "Order": 0
   },
   {
-    "ID": 130,
+    "ID": 131,
     "SkillName": "报应",
     "Category": "暗黑骑士",
     "ActionID": 36929,
@@ -2016,10 +2076,22 @@
     "Order": 0
   },
   {
-    "ID": 131,
+    "ID": 132,
     "SkillName": "戮山",
     "Category": "暗黑骑士",
     "ActionID": 36930,
+    "Level": 100,
+    "TemplateType": "text",
+    "Value": "200",
+    "ColorType": "healing",
+    "Description": "魔法值回复",
+    "Order": 0
+  },
+  {
+    "ID": 124,
+    "SkillName": "刺穿",
+    "Category": "暗黑骑士",
+    "ActionID": 36931,
     "Level": 100,
     "TemplateType": "text",
     "Value": "200",
@@ -2034,25 +2106,13 @@
     "ActionID": 36931,
     "Level": 100,
     "TemplateType": "text",
-    "Value": "200",
-    "ColorType": "healing",
-    "Description": "魔法值回复",
-    "Order": 0
-  },
-  {
-    "ID": 122,
-    "SkillName": "刺穿",
-    "Category": "暗黑骑士",
-    "ActionID": 36931,
-    "Level": 100,
-    "TemplateType": "text",
     "Value": "0",
     "ColorType": "hint",
     "Description": "目标数大于等于3时，威力大于“血红乱三连”。",
     "Order": 1
   },
   {
-    "ID": 157,
+    "ID": 159,
     "SkillName": "大星云",
     "Category": "绝枪战士",
     "ActionID": 36935,
