@@ -42,11 +42,12 @@ public class PilgrimTraverseBossAuto
     const string UpdateInfo =
         $"""
          {Version}
-         F50 不准跑快快
+         F50 沙坑机制移速调整为1.0，结束后恢复为1.3
+         F70 强制设置移速到1.3
          """;
 
     private const string Name = "MazeClear妖宫Boss辅助";
-    private const string Version = "0.0.0.6";
+    private const string Version = "0.0.0.7";
     private const string DebugVersion = "a";
     private const bool Debugging = false;
     private bool _enable = true;
@@ -467,6 +468,7 @@ public class PilgrimTraverseBossAuto
         _bsp.Reset(sa, 50);
         MoveStop(sa);
         SwitchAiMode(sa, true);
+        SetSpeed(sa, 1.3f);
         sa.DebugMsg($"破坑而出结束，开启BMR", Debugging);
     }
     
@@ -596,6 +598,24 @@ public class PilgrimTraverseBossAuto
 
     #endregion F60 仙人掌
 
+    #region F70 月环独眼巨人
+
+    [ScriptMethod(name: "———————— 《F70 月环独眼巨人》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],
+        userControl: true)]
+    public void F70_分割线(Event ev, ScriptAccessory sa)
+    {
+    }
+    
+    [ScriptMethod(name: "直线读条跑快快", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:regex:^(43406|43411)$"],
+        userControl: true)]
+    public void 直线读条跑快快(Event ev, ScriptAccessory sa)
+    {
+        if (!_enable) return;
+        SetSpeed(sa, 1.3f);
+        sa.DebugMsg($"四列式分株：{_bsp.F60A_castCountOdd}", Debugging);
+    }
+
+    #endregion
     #region F99 卓异的悲寂
 
     [ScriptMethod(name: "———————— 《F99 卓异的悲寂》 ————————", eventType: EventTypeEnum.NpcYell, eventCondition: ["HelloayaWorld:asdf"],

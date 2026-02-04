@@ -2,12 +2,12 @@
   {
     "Name": "MazeClear妖宫Boss辅助",
     "Guid": "fb8c4010-82cf-4d35-9ce8-c80b58215a9d",
-    "Version": "0.0.0.6",
+    "Version": "0.0.0.7",
     "Author": "Usami",
     "Repo": "",
     "DownloadUrl": "https://raw.githubusercontent.com/lianying1997/TempRepoScript/main/PilgrimTraverseBossAuto.cs",
-    "Note": "0.0.0.6\r\n与MazeClear配合实现的妖宫boss辅助，\r\n用当前可支配的手段解决一些BMR不太理想的行动。\r\n单人模式限定，配合I-ching、vnavmesh、BMR使用。",
-    "UpdateInfo": "0.0.0.6\r\nF50 不准跑快快",
+    "Note": "0.0.0.7\r\n与MazeClear配合实现的妖宫boss辅助，\r\n用当前可支配的手段解决一些BMR不太理想的行动。\r\n单人模式限定，配合I-ching、vnavmesh、BMR使用。",
+    "UpdateInfo": "0.0.0.7\r\nF50 沙坑机制移速调整为1.0，结束后恢复为1.3\r\nF70 强制设置移速到1.3",
     "TerritoryIds": [
       1281,
       1282,
